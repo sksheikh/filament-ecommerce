@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Users;
 use App\Filament\Resources\Users\Pages\CreateUser;
 use App\Filament\Resources\Users\Pages\EditUser;
 use App\Filament\Resources\Users\Pages\ListUsers;
+use App\Filament\Resources\Users\RelationManagers\OrdersRelationManager;
 use App\Filament\Resources\Users\Schemas\UserForm;
 use App\Filament\Resources\Users\Tables\UsersTable;
 use App\Models\User;
@@ -13,12 +14,20 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class UserResource extends Resource
 {
+
     protected static ?string $model = User::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?int $navigationSort = 1;
+
+    protected static string | UnitEnum | null $navigationGroup = 'User Management';
 
     public static function form(Schema $schema): Schema
     {
@@ -33,7 +42,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            OrdersRelationManager::class,
         ];
     }
 
