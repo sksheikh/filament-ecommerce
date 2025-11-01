@@ -3,7 +3,11 @@
 namespace App\Filament\Resources\Orders\Tables;
 
 use Dom\Text;
+use App\Enums\OrderStatus;
 use Filament\Tables\Table;
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentStatus;
+use App\Enums\ShippingMethod;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Actions\ActionGroup;
@@ -35,6 +39,7 @@ class OrdersTable
 
                 TextColumn::make('payment_status')
                     ->sortable()
+                    ->badge()
                     ->searchable(),
 
                 TextColumn::make('shipping_method')
@@ -42,13 +47,7 @@ class OrdersTable
                     ->searchable(),
 
                 SelectColumn::make('status')
-                    ->options([
-                        'new' => 'New',
-                        'processing' => 'Processing',
-                        'shipped' => 'Shipped',
-                        'delivered' => 'Delivered',
-                        'cancelled' => 'Cancelled',
-                    ])
+                    ->options(OrderStatus::class)
                     ->sortable()
                     ->searchable(),
 

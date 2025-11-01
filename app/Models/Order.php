@@ -18,6 +18,13 @@ class Order extends Model
         'notes',
     ];
 
+    protected $casts = [
+        'status' => \App\Enums\OrderStatus::class,
+        'payment_method' => \App\Enums\PaymentMethod::class,
+        'payment_status' => \App\Enums\PaymentStatus::class,
+        'shipping_method' => \App\Enums\ShippingMethod::class,
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

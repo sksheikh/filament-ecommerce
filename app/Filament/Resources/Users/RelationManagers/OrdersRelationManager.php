@@ -48,31 +48,14 @@ class OrdersRelationManager extends RelationManager
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->sortable()
-                    ->color(fn ($state) => match ($state) {
-                        'new' => 'primary',
-                        'processing' => 'warning',
-                        'shipped' => 'info',
-                        'delivered' => 'success',
-                        'cancelled' => 'danger',
-                        default => 'secondary',
-                    })
-                    ->icon(fn ($state) => match ($state) {
-                        'new' => 'heroicon-m-sparkles',
-                        'processing' => 'heroicon-m-arrow-path',
-                        'shipped' => 'heroicon-m-truck',
-                        'delivered' => 'heroicon-m-check-circle',
-                        'cancelled' => 'heroicon-o-x-circle',
-                        default => 'heroicon-o-question-mark-circle',
-                    }),
+                    ->sortable(),
 
                 TextColumn::make('payment_method')
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('payment_status')
-                    ->searchable()
-                    ->badge(),
+                    ->searchable(),
 
                 TextColumn::make('created_at')
                     ->dateTime()
