@@ -11,7 +11,7 @@
             <!-- Buttons -->
             <div class="mt-7 flex flex-row gap-3 justify-center">
             <a
-                class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-slate-600 text-white hover:bg-slate-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                class="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-black text-white hover:bg-slate-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                 href="/register"
             >
                 Get started
