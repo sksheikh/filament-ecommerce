@@ -3,7 +3,10 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Order;
+use App\Enums\OrderStatus;
 use Filament\Tables\Table;
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentStatus;
 use Filament\Actions\Action;
 use Filament\Widgets\TableWidget;
 use Filament\Actions\BulkActionGroup;
@@ -37,31 +40,17 @@ class LatestOrders extends TableWidget
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->sortable()
-                    ->color(fn ($state) => match ($state) {
-                        'new' => 'primary',
-                        'processing' => 'warning',
-                        'shipped' => 'info',
-                        'delivered' => 'success',
-                        'cancelled' => 'danger',
-                        default => 'secondary',
-                    })
-                    ->icon(fn ($state) => match ($state) {
-                        'new' => 'heroicon-m-sparkles',
-                        'processing' => 'heroicon-m-arrow-path',
-                        'shipped' => 'heroicon-m-truck',
-                        'delivered' => 'heroicon-m-check-circle',
-                        'cancelled' => 'heroicon-o-x-circle',
-                        default => 'heroicon-o-question-mark-circle',
-                    }),
+                    ->sortable(),
+                    // ->formatStateUsing(fn ($state) => OrderStatus::from($state)->getLabel())
+                    // ->color(fn ($state) => OrderStatus::from($state)->getColor())
+                    // ->icon(fn ($state) => OrderStatus::from($state)->getIcon()),
 
                 TextColumn::make('payment_method')
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('payment_status')
-                    ->searchable()
-                    ->badge(),
+                    ->searchable(),
 
                 TextColumn::make('created_at')
                     ->dateTime()

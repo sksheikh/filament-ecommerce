@@ -2,7 +2,12 @@
 
 namespace App\Filament\Resources\Orders\Schemas;
 
+use App\Models\Order;
+use App\Enums\OrderStatus;
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentStatus;
 use Filament\Schemas\Schema;
+use App\Enums\ShippingMethod;
 use Illuminate\Support\Number;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -34,64 +39,24 @@ class OrderForm
 
                         Select::make('payment_method')
                             ->placeholder('Select a payment method')
-                            ->options([
-                                'bkash' => 'Bkash',
-                                'cod' => 'COD',
-
-                            ])
+                            ->options(PaymentMethod::class)
                             ->required(),
 
                         Select::make('payment_status')
-                            ->options([
-                                'pending' => 'Pending',
-                                'paid' => 'Paid',
-                                'failed' => 'Failed',
-
-                            ])
-                            ->default('pending')
+                            ->placeholder('Select a payment status')
+                            ->options(PaymentStatus::class)
+                            ->default(PaymentStatus::Pending)
                             ->required(),
 
                         ToggleButtons::make('status')
                             ->inline()
-                            ->options([
-                                'new' => 'New',
-                                'processing' => 'Processing',
-                                'shipped' => 'Shipped',
-                                'delivered' => 'Delivered',
-                                'cancelled' => 'Cancelled',
-                            ])
-                            ->colors([
-                                'new' => 'info',
-                                'processing' => 'warning',
-                                'shipped' => 'success',
-                                'delivered' => 'success',
-                                'cancelled' => 'danger',
-                            ])
-                            ->icons([
-                                'new' => 'heroicon-m-sparkles',
-                                'processing' => 'heroicon-m-arrow-path',
-                                'shipped' => 'heroicon-m-truck',
-                                'delivered' => 'heroicon-m-check-badge',
-                                'cancelled' => 'heroicon-m-x-circle',
-                            ])
-                            ->default('new')
-                            ->required(),
-
-                        Select::make('currency')
-                            ->options([
-                                'bdt' => 'BDT',
-                                'usd' => 'USD',
-                            ])
-                            ->default('bdt')
+                            ->options(OrderStatus::class)
+                            ->default(OrderStatus::New)
                             ->required(),
 
                            Select::make('shipping_method')
-                            ->options([
-                                'pathao' => 'Pathao',
-                                'redx' => 'RedX',
-                                'steedfast' => 'SteedFast',
-                            ])
-                            ->default('pathao')
+                            ->placeholder('Select a shipping method')
+                            ->options(ShippingMethod::class)
                             ->required(),
 
                         Textarea::make('notes')

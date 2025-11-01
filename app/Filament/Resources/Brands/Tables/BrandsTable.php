@@ -21,15 +21,20 @@ class BrandsTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
+
                 ImageColumn::make('image'),
+
                 TextColumn::make('slug')
                     ->searchable(),
+
                 IconColumn::make('is_active')
                     ->boolean(),
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
