@@ -41,4 +41,9 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function scopeFeatured($query)
+    {
+        return $query->where('is_featured', 1);
+    }
 }
