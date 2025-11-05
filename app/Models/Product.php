@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
+    protected $appends = ['image_urls'];
     protected $fillable = [
         'category_id',
         'brand_id',
@@ -45,5 +47,24 @@ class Product extends Model
     public function scopeFeatured($query)
     {
         return $query->where('is_featured', 1);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', 1);
+    }
+
+    public function getImageUrlsAttribute()
+    {
+        if(!empty($this->images)){
+           return collect($this->images)
+            ->filter() // remove null/empty
+            ->map(fn($image) => Storage::url($image))
+            ->values()
+            ->toArray();
+        }
+
+        return [asset('images/default-image.png')];
+
     }
 }
