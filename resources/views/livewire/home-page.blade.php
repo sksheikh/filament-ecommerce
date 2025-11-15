@@ -40,7 +40,10 @@
             <!-- Card 1 -->
             @if($categories->count() > 0)
             @foreach($categories as $category)
-            <a class="group flex flex-col bg-white border border-transparent hover:border-blue-200 shadow-sm rounded-2xl hover:shadow-md transition-transform hover:-translate-y-1 p-5" href="#" wire:key="{{ $category->id }}">
+            <a
+                class="group flex flex-col bg-white border border-transparent hover:border-blue-200 shadow-sm rounded-2xl hover:shadow-md transition-transform hover:-translate-y-1 p-5"
+                href="/products?selected_categories[0]={{ $category->id }}"
+                wire:key="{{ $category->id }}">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center">
                         <img class="h-10 w-10 rounded-full ring-2 ring-blue-100" src="{{ $category->image_url }}" alt="{{ $category->name }}">
