@@ -15,5 +15,22 @@
         </main>
         @livewire('partials.footer')
         @livewireScripts()
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            window.addEventListener('toast', event => {
+                 let detail = Array.isArray(event.detail) ? event.detail[0] : event.detail;
+                console.log(detail);
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: detail.icon,
+                    title: detail.message,
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                });
+            });
+        </script>
+
     </body>
 </html>
