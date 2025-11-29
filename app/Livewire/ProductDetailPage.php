@@ -31,7 +31,7 @@ class ProductDetailPage extends Component
 
     public function addToCart($productId)
     {
-        $total_count = \App\Helpers\CartManagement::addItemToCart($productId);
+        $total_count = \App\Helpers\CartManagement::addItemToCartWithQty($productId, $this->quantity);
         $this->dispatch('update-cart-item', total_count: $total_count);
         $this->dispatch('toast', [
             'message' => 'Product added to cart!',
