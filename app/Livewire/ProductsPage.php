@@ -6,12 +6,16 @@ use App\Models\Brand;
 use App\Models\Product;
 use Livewire\Component;
 use App\Models\Category;
-use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
+use Livewire\Attributes\Title;
+use App\Helpers\CartManagement;
+use App\Livewire\Partials\Navbar;
+
 
 #[Title('Products | Nafisa Mart')]
 class ProductsPage extends Component
 {
+
     #[Url()]
     public $selected_categories = [];
 
@@ -28,7 +32,18 @@ class ProductsPage extends Component
     public $price_range = 3000;
 
     #[Url()]
-    public $sort_by;
+    public $sort = "latest";
+
+    public function addToCart($productId){
+        $total_count = CartManagement::addItemToCart($productId);
+        $this->dispatch('update-cart-item', total_count: $total_count)->to(Navbar::class);
+        // $this->alert('success', 'Product added!');
+        $this->dispatch('toast', [
+            'message' => 'Product added to cart!',
+            'icon' => 'success'
+        ]);
+
+    }
 
     public function render()
     {
@@ -55,8 +70,12 @@ class ProductsPage extends Component
             $productsQuery->whereBetween('price', [0, $this->price_range]);
         }
 
-        if($this->sort_by){
-            $productsQuery->orderBy($this->sort_by, 'desc');
+        if($this->sort == 'latest'){
+            $productsQuery->latest();
+        }
+
+        if($this->sort == 'price'){
+            $productsQuery->orderBy('price');
         }
 
         $products = $productsQuery->paginate(9);
