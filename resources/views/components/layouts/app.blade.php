@@ -11,18 +11,6 @@
     <body class="bg-slate-200 dark:bg-slate-900">
         @livewire('partials.navbar')
         <main>
-            @session('success')
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative my-4 mx-auto max-w-3xl" role="alert">
-                    <span class="block sm:inline">{{ session('success') }}</span>
-                </div>
-            @endsession
-
-            @session('error')
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-4 mx-auto max-w-3xl" role="alert">
-                    <span class="block sm:inline">{{ session('error') }}</span>
-                </div>
-            @endsession
-
             {{ $slot }}
         </main>
         @livewire('partials.footer')
