@@ -37,6 +37,11 @@ class UserForm
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (Page $livewire): bool => $livewire instanceof CreateUser),
 
+                \Filament\Forms\Components\Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
             ]);
     }
 }

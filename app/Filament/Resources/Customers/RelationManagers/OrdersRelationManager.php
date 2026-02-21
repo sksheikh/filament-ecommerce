@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Users\RelationManagers;
+namespace App\Filament\Resources\Customers\RelationManagers;
 
 use App\Models\Order;
 use Filament\Tables\Table;

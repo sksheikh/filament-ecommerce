@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use Filament\Panel;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\PanelProvider;
 use Filament\Pages\Dashboard;
 use Filament\Support\Colors\Color;
@@ -58,11 +59,16 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->plugins([
+                FilamentShieldPlugin::make(),
+            ])
             ->authMiddleware([
                 Authenticate::class,
             ])
             ->navigationGroups([
                 NavigationGroup::make('User Management')
+                    ->collapsed(false),
+                NavigationGroup::make('Customer Management')
                     ->collapsed(false),
                 NavigationGroup::make('Product Management')
                     ->collapsed(false),

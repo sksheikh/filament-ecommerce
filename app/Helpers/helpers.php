@@ -1,6 +1,6 @@
 <?php
 
-use NumberFormatter;
+
 use Illuminate\Support\Str;
 
 if (! function_exists('moneyFormat')) {

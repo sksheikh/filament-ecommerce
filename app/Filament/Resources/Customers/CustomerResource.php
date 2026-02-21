@@ -16,6 +16,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
+use App\Filament\Resources\Customers\RelationManagers\OrdersRelationManager;
 
 class CustomerResource extends Resource
 {
@@ -47,7 +48,7 @@ class CustomerResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            OrdersRelationManager::class,
         ];
     }
 

@@ -24,6 +24,10 @@ class UsersTable
                 TextColumn::make('email')
                     ->searchable(),
 
+                TextColumn::make('roles.name')
+                    ->label('Role')
+                    ->badge(),
+
                 TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),

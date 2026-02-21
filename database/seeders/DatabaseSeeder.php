@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         // Seed brands, categories, products and users
         $this->call([
+            \Database\Seeders\RoleSeeder::class,
             \Database\Seeders\BrandSeeder::class,
             \Database\Seeders\CategorySeeder::class,
             \Database\Seeders\ProductSeeder::class,
