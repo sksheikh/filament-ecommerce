@@ -35,7 +35,7 @@ class OrderForm
                             ->searchable()
                             ->required()
                             ->preload()
-                            ->relationship('user', 'name'),
+                            ->relationship('customer', 'name'),
 
                         Select::make('payment_method')
                             ->placeholder('Select a payment method')

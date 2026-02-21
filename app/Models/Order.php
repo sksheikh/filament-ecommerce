@@ -25,9 +25,9 @@ class Order extends Model
         'shipping_method' => \App\Enums\ShippingMethod::class,
     ];
 
-    public function user()
+    public function customer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Customer::class, 'user_id');
     }
 
     public function items()

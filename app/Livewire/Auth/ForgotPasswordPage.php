@@ -14,10 +14,10 @@ class ForgotPasswordPage extends Component
     public function save()
     {
         $this->validate([
-            'email' => 'required|string|email|exists:users,email|max:255'
+            'email' => 'required|string|email|exists:customers,email|max:255'
         ]);
 
-        $status = Password::sendResetLink(['email' => $this->email]);
+        $status = Password::broker('customers')->sendResetLink(['email' => $this->email]);
 
         if($status === Password::RESET_LINK_SENT){
             session()->flash('success', 'Password reset link sent to your address');

@@ -14,12 +14,12 @@ class LoginPage extends Component
     public function login()
     {
         $this->validate([
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|max:255|exists:customers,email',
             'password' => 'required|string|min:6|max:255',
         ]);
 
         // Login logic goes here
-        if (!auth()->attempt(['email' => $this->email, 'password' => $this->password])) {
+        if (!auth('customer')->attempt(['email' => $this->email, 'password' => $this->password])) {
             session()->flash('error', 'Invalid credentials.');
             return;
         }

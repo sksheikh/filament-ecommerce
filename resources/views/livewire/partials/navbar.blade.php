@@ -52,7 +52,7 @@
               >{{ $total_count }}</span>
             </a>
 
-           @guest
+           @guest('customer')
                 <div class="pt-3 md:pt-0">
               <a
                 wire:navigate
@@ -66,10 +66,10 @@
             </div>
            @endguest
 
-            @auth
+            @auth('customer')
                 <div class="hs-dropdown relative [--trigger:hover] [--placement:bottom-right]">
                     <button type="button" class="w-full flex items-center text-gray-500 hover:text-gray-400 font-medium py-3 md:py-6 dark:text-gray-400 dark:hover:text-gray-500">
-                    {{ auth()->user()->name }}
+                    {{ auth('customer')->user()->name }}
                     <svg class="ms-2 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m6 9 6 6 6-6" />
                     </svg>

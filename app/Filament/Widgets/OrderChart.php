@@ -22,11 +22,14 @@ class OrderChart extends ChartWidget
         $orders = Order::query()
             ->select(
                 DB::raw('COUNT(*) as count'),
-                DB::raw("strftime('%m', created_at) as month")
+                // Use MySQL DATE_FORMAT to get month (01-12)
+                DB::raw("DATE_FORMAT(created_at, '%m') as month")
             )
-            ->where(DB::raw("strftime('%Y', created_at)"), '=', $activeFilter)
-            ->whereRaw("strftime('%Y', created_at) = ?", [now()->format('Y')])
-            ->groupBy(DB::raw("strftime('%m', created_at)"))
+            // Filter by selected year using YEAR()
+            ->where(DB::raw('YEAR(created_at)'), '=', $activeFilter)
+            // Keep the additional raw where that previously limited to current year
+            ->whereRaw('YEAR(created_at) = ?', [now()->format('Y')])
+            ->groupBy(DB::raw("DATE_FORMAT(created_at, '%m')"))
             ->pluck('count', 'month')
             ->toArray();
 

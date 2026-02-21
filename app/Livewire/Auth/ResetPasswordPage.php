@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Auth;
 
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Auth\Events\PasswordReset;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -30,19 +30,19 @@ class ResetPasswordPage extends Component
     {
         $this->validate([
             'token' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|exists:customers,email',
             'password' => 'required|confirmed|min:6',
         ]);
 
         // Here you would typically handle the password reset logic,
-        $status = Password::reset(
+        $status = Password::broker('customers')->reset(
             [
                 'email' => $this->email,
                 'password' => $this->password,
                 'password_confirmation' => $this->password_confirmation,
                 'token' => $this->token,
             ],
-            function (User $user, string $password) {
+            function (Customer $user, string $password) {
                 $user->forceFill([
                     'password' => Hash::make($password)
                 ])->setRememberToken(Str::random(60));

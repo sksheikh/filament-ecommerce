@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Auth;
 
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -18,19 +18,19 @@ class RegisterPage extends Component
     {
         $this->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email|max:255',
+            'email' => 'required|email|unique:customers,email|max:255',
             'password' => 'required|string|min:6|max:255',
         ]);
 
         // Registration logic goes here
-        $user = User::create([
+        $customer = Customer::create([
             'name' => $this->name,
             'email' => $this->email,
             'password' => Hash::make($this->password),
         ]);
 
         // Optionally, you can log the user in or redirect them
-        auth()->login($user);
+        auth('customer')->login($customer);
 
         return redirect()->intended();
     }
