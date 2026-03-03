@@ -2,12 +2,121 @@
 
 namespace App\Livewire;
 
+use App\Helpers\CartManagement;
 use Livewire\Component;
 
+#[Title('Checkout | Nafisa Mart')]
 class CheckoutPage extends Component
 {
+    public $name;
+    public $phone;
+    public $address;
+    public $division;
+    public $district;
+    public $area;
+    public $zip_code;
+    public $payment_method;
+    public $notes;
+
+    public $divisions = [];
+    public $districts = [];
+    public $areas = [];
+
+    public function mount()
+    {
+        $this->divisions = \App\Models\Division::all();
+        $cart_items = CartManagement::getCartItemsFromCookie();
+        if(empty($cart_items)) {
+            return redirect()->route('products');
+        }
+
+        if (auth()->guard('customer')->check()) {
+            $customer = auth()->guard('customer')->user();
+            $this->name = $customer->name;
+            // $this->phone = $customer->phone; // if phone exists on customer
+        }
+    }
+
+    public function updatedDivision($divisionId)
+    {
+        $this->districts = \App\Models\District::where('division_id', $divisionId)->get();
+        $this->district = null;
+        $this->area = null;
+        $this->areas = [];
+    }
+
+    public function updatedDistrict($districtId)
+    {
+        $this->areas = \App\Models\Area::where('district_id', $districtId)->get();
+        $this->area = null;
+    }
+
+    public function placeOrder()
+    {
+        if (!auth()->guard('customer')->check()) {
+            return redirect()->route('login');
+        }
+
+        $this->validate([
+            'name' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+            'division' => 'required',
+            'district' => 'required',
+            'area' => 'required',
+            'payment_method' => 'required',
+        ]);
+
+        $cart_items = CartManagement::getCartItemsFromCookie();
+        $grand_total = CartManagement::calculateGrandTotal($cart_items);
+
+        $order = new \App\Models\Order();
+        $order->user_id = auth()->guard('customer')->id();
+        $order->grand_total = $grand_total;
+        $order->payment_method = $this->payment_method;
+        $order->payment_status = \App\Enums\PaymentStatus::Pending;
+        $order->status = \App\Enums\OrderStatus::New;
+        $order->currency = 'BDT';
+        $order->shipping_amount = 0;
+        // $order->shipping_method = \App\Enums\ShippingMethod::Standard;
+        $order->notes = $this->notes;
+        $order->save();
+
+        foreach ($cart_items as $item) {
+            $order->items()->create([
+                'product_id' => $item['product_id'],
+                'quantity' => $item['quantity'],
+                'unit_amount' => $item['unit_amount'],
+                'total_amount' => $item['total_amount'],
+            ]);
+        }
+
+        $order->address()->create([
+            'first_name' => $this->name,
+            'phone' => $this->phone,
+            'street_address' => $this->address,
+            'division_id' => $this->division,
+            'district_id' => $this->district,
+            'area_id' => $this->area,
+            'zip_code' => $this->zip_code,
+        ]);
+
+        CartManagement::clearCartItems();
+
+        if ($this->payment_method == 'bkash') {
+            return redirect()->route('checkout.payment', $order->id);
+        }
+
+        return redirect()->route('success', $order->id);
+    }
+
     public function render()
     {
-        return view('livewire.checkout-page');
+        $cart_items = CartManagement::getCartItemsFromCookie();
+        $grand_total = CartManagement::calculateGrandTotal($cart_items);
+        return view('livewire.checkout-page',[
+            'cart_items' => $cart_items,
+            'grand_total' => $grand_total,
+        ]);
     }
 }

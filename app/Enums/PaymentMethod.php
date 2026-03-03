@@ -8,12 +8,14 @@ enum PaymentMethod: string implements HasLabel
 {
     case CashOnDelivery = 'cash_on_delivery';
     case OnlinePayment = 'online_payment';
+    case Bkash = 'bkash';
 
     public function getLabel(): ?string
     {
         return match ($this) {
             self::CashOnDelivery => 'Cash on Delivery',
             self::OnlinePayment => 'Online Payment',
+            self::Bkash => 'Bkash',
         };
     }
 }

@@ -63,13 +63,13 @@
             <span>Subtotal</span>
             <span>{{ moneyFormat($grand_total) }}</span>
           </div>
-          <div class="flex justify-between mb-2">
+          {{-- <div class="flex justify-between mb-2">
             <span>Taxes</span>
             <span>{{ moneyFormat(0) }}</span>
-          </div>
+          </div> --}}
           <div class="flex justify-between mb-2">
             <span>Shipping</span>
-            <span>$0.00</span>
+            <span>{{ moneyFormat(0) }}</span>
           </div>
           <hr class="my-2">
           <div class="flex justify-between mb-2">

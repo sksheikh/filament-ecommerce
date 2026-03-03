@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomePage::class);
 Route::get('/categories ', CategoriesPage::class);
-Route::get('/products', ProductsPage::class);
+Route::get('/products', ProductsPage::class)->name('products');
 Route::get('/products/{slug}', ProductDetailPage::class);
 Route::get('/cart', CartPage::class);
 
@@ -36,12 +36,14 @@ Route::middleware(['auth:customer'])->group(function () {
     Route::get('/logout', function () {
         auth('customer')->logout();
         return redirect('/');
-    });
+    })->name('logout');
 
-    Route::get('/checkout', CheckoutPage::class);
-    Route::get('/my-orders', MyOrdersPage::class);
+    Route::get('/checkout', CheckoutPage::class)->name('checkout');
+    Route::get('/checkout/payment/{order}', \App\Livewire\BkashPaymentPage::class)->name('checkout.payment');
+    Route::get('/profile', \App\Livewire\ProfilePage::class)->name('profile');
+    Route::get('/my-orders', MyOrdersPage::class)->name('my-orders');
     Route::get('/my-orders/{order}', MyOrderDetailPage::class);
 
-    Route::get('/success',  SuccessPage::class);
-    Route::get('/cancel', CancelPage::class);
+    Route::get('/success/{order}',  SuccessPage::class)->name('success');
+    Route::get('/cancel', CancelPage::class)->name('cancel');
 });
