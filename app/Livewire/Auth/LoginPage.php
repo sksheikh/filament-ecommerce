@@ -24,7 +24,7 @@ class LoginPage extends Component
             return;
         }
 
-        return redirect()->intended();
+        return redirect()->intended('/');
 
     }
 

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Hash;
 
 #[Title('My Profile - Nafisa Mart')]
 class ProfilePage extends Component
@@ -16,6 +17,16 @@ class ProfilePage extends Component
 
     public $is_editing = false;
 
+    public $is_changing_password = false;
+    public $current_password;
+    public $new_password;
+    public $new_password_confirmation;
+
+    public $is_changing_email = false;
+    public $current_email;
+    public $new_email;
+    public $email_password;
+
     public function mount()
     {
         $customer = auth()->guard('customer')->user();
@@ -24,6 +35,7 @@ class ProfilePage extends Component
         $this->phone = $customer->phone;
         $this->date_of_birth = $customer->date_of_birth;
         $this->gender = $customer->gender;
+        $this->current_email = $customer->email;
     }
 
     public function toggleEdit()
@@ -56,6 +68,79 @@ class ProfilePage extends Component
         $this->dispatch('toast', [
             'icon' => 'success',
             'message' => 'Profile updated successfully!'
+        ]);
+    }
+
+    public function toggleChangePassword()
+    {
+        $this->is_changing_password = !$this->is_changing_password;
+        $this->reset(['current_password', 'new_password', 'new_password_confirmation']);
+        $this->resetValidation();
+    }
+
+    public function changePassword()
+    {
+        $this->validate([
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:8|confirmed',
+        ], [
+            'new_password.confirmed' => 'The new password confirmation does not match.',
+        ]);
+
+        $customer = auth()->guard('customer')->user();
+
+        if (!Hash::check($this->current_password, $customer->password)) {
+            $this->addError('current_password', 'The current password is incorrect.');
+            return;
+        }
+
+        $customer->update([
+            'password' => Hash::make($this->new_password),
+        ]);
+
+        $this->is_changing_password = false;
+        $this->reset(['current_password', 'new_password', 'new_password_confirmation']);
+
+        $this->dispatch('toast', [
+            'icon' => 'success',
+            'message' => 'Password changed successfully!'
+        ]);
+    }
+
+    public function toggleChangeEmail()
+    {
+        $this->is_changing_email = !$this->is_changing_email;
+        $this->reset(['new_email', 'email_password']);
+        $this->resetValidation();
+    }
+
+    public function changeEmail()
+    {
+        $this->validate([
+            'new_email' => 'required|email|unique:customers,email,' . auth()->guard('customer')->id(),
+            'email_password' => 'required|string',
+        ], [
+            'new_email.unique' => 'This email is already in use.',
+        ]);
+
+        $customer = auth()->guard('customer')->user();
+
+        if (!Hash::check($this->email_password, $customer->password)) {
+            $this->addError('email_password', 'The password is incorrect.');
+            return;
+        }
+
+        $customer->update([
+            'email' => $this->new_email,
+        ]);
+
+        $this->current_email = $this->new_email;
+        $this->is_changing_email = false;
+        $this->reset(['new_email', 'email_password']);
+
+        $this->dispatch('toast', [
+            'icon' => 'success',
+            'message' => 'Email changed successfully!'
         ]);
     }
 
