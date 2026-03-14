@@ -8,7 +8,8 @@ use Livewire\Component;
 #[Title('Checkout | Nafisa Mart')]
 class CheckoutPage extends Component
 {
-    public $name;
+    public $first_name;
+    public $last_name;
     public $phone;
     public $address;
     public $division;
@@ -32,8 +33,13 @@ class CheckoutPage extends Component
 
         if (auth()->guard('customer')->check()) {
             $customer = auth()->guard('customer')->user();
-            $this->name = $customer->name;
-            // $this->phone = $customer->phone; // if phone exists on customer
+            
+            // Split name into first and last name if possible
+            $nameParts = explode(' ', $customer->name, 2);
+            $this->first_name = $nameParts[0] ?? '';
+            $this->last_name = $nameParts[1] ?? '';
+            
+            $this->phone = $customer->phone;
         }
     }
 
@@ -58,7 +64,8 @@ class CheckoutPage extends Component
         }
 
         $this->validate([
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'phone' => 'required',
             'address' => 'required',
             'division' => 'required',
@@ -71,7 +78,8 @@ class CheckoutPage extends Component
         $grand_total = CartManagement::calculateGrandTotal($cart_items);
 
         $order = new \App\Models\Order();
-        $order->user_id = auth()->guard('customer')->id();
+        $order->order_number = \App\Helpers\OrderNumberGenerator::generate();
+        $order->customer_id = auth()->guard('customer')->id();
         $order->grand_total = $grand_total;
         $order->payment_method = $this->payment_method;
         $order->payment_status = \App\Enums\PaymentStatus::Pending;
@@ -92,12 +100,13 @@ class CheckoutPage extends Component
         }
 
         $order->address()->create([
-            'first_name' => $this->name,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
             'phone' => $this->phone,
-            'street_address' => $this->address,
-            'division_id' => $this->division,
-            'district_id' => $this->district,
-            'area_id' => $this->area,
+            'address' => $this->address,
+            'division' => $this->division->name,
+            'district' => $this->district->name,
+            'area' => $this->area->name,
             'zip_code' => $this->zip_code,
         ]);
 

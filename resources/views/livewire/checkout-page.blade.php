@@ -9,44 +9,47 @@
 			<div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
 				<!-- Shipping Address -->
 				<div class="mb-6">
-					<h2 class="text-xl font-bold underline text-gray-700 dark:text-white mb-2">
+					<h2 class="text-xl font-bold underline text-gray-700 dark:text-white mb-5">
 						Shipping Address
 					</h2>
-					<div class="grid grid-cols-2 gap-4">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 						<div>
 							<label class="block text-gray-700 dark:text-white mb-1" for="first_name">
-								Name
+								First Name <span class="text-red-500">*</span>
 							</label>
-							<input wire:model="name" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600" id="name" type="text" placeholder="Enter your name">
-							@error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-							</input>
+							<input wire:model="first_name" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="first_name" type="text" placeholder="First name">
+							@error('first_name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+						</div>
+
+						<div>
+							<label class="block text-gray-700 dark:text-white mb-1" for="last_name">
+								Last Name <span class="text-red-500">*</span>
+							</label>
+							<input wire:model="last_name" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="last_name" type="text" placeholder="Last name">
+							@error('last_name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 						</div>
 
                         <div>
                             <label class="block text-gray-700 dark:text-white mb-1" for="phone">
-							Phone
-						</label>
-						<input wire:model="phone" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600" id="phone" type="text" placeholder="Enter your phone number">
-						@error('phone') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-						</input>
+								Phone <span class="text-red-500">*</span>
+							</label>
+							<input wire:model="phone" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="phone" type="text" placeholder="Phone number">
+							@error('phone') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
 
-					</div>
+						<div>
+							<label class="block text-gray-700 dark:text-white mb-1" for="zip">
+								ZIP Code
+							</label>
+							<input wire:model="zip_code" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="zip" type="text" placeholder="ZIP code">
+							@error('zip_code') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+						</div>
 
-					<div class="mt-4">
-						<label class="block text-gray-700 dark:text-white mb-1" for="address">
-							Address
-						</label>
-						<input wire:model="address" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600" id="address" type="text" placeholder="Enter your address">
-						@error('address') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-						</input>
-					</div>
-					<div class="grid grid-cols-2 gap-4 mt-4">
 						<div>
 							<label class="block text-gray-700 dark:text-white mb-1" for="division">
-								Division
+								Division <span class="text-red-500">*</span>
 							</label>
-                            <select wire:model.live="division" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600" id="division">
+                            <select wire:model.live="division" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="division">
                                 <option value="">Select Division</option>
                                 @foreach($divisions as $div)
                                     <option value="{{ $div->id }}">{{ $div->name }}</option>
@@ -57,9 +60,9 @@
 
                         <div>
                             <label class="block text-gray-700 dark:text-white mb-1" for="district">
-								District
+								District <span class="text-red-500">*</span>
 							</label>
-                            <select wire:model.live="district" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600" id="district" @if(empty($districts)) disabled @endif>
+                            <select wire:model.live="district" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="district" @if(empty($districts)) disabled @endif>
                                 <option value="">Select District</option>
                                 @foreach($districts as $dis)
                                     <option value="{{ $dis->id }}">{{ $dis->name }}</option>
@@ -68,13 +71,11 @@
 							@error('district') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
 
-					</div>
-					<div class="grid grid-cols-2 gap-4 mt-4">
 						<div>
 							<label class="block text-gray-700 dark:text-white mb-1" for="area">
-								Area
+								Area <span class="text-red-500">*</span>
 							</label>
-                            <select wire:model="area" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600" id="area" @if(empty($areas)) disabled @endif>
+                            <select wire:model="area" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="area" @if(empty($areas)) disabled @endif>
                                 <option value="">Select Area</option>
                                 @foreach($areas as $ar)
                                     <option value="{{ $ar->id }}">{{ $ar->name }}</option>
@@ -82,20 +83,21 @@
                             </select>
 							@error('area') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 						</div>
-						<div>
-							<label class="block text-gray-700 dark:text-white mb-1" for="zip">
-								ZIP Code
-							</label>
-							<input wire:model="zip_code" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600" id="zip" type="text" placeholder="Enter ZIP code">
-							@error('zip_code') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-							</input>
-						</div>
 					</div>
+
+					<div class="mt-4">
+						<label class="block text-gray-700 dark:text-white mb-1" for="address">
+							Address <span class="text-red-500">*</span>
+						</label>
+						<input wire:model="address" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="address" type="text" placeholder="Detailed Address">
+						@error('address') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+					</div>
+
                     <div class="mt-4">
                         <label class="block text-gray-700 dark:text-white mb-1" for="notes">
                             Order Note (Optional)
                         </label>
-                        <textarea wire:model="notes" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600" id="notes" placeholder="Enter any special instructions for your order"></textarea>
+                        <textarea wire:model="notes" rows="3" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="notes" placeholder="Enter any special instructions for your order"></textarea>
                         @error('notes') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
 				</div>

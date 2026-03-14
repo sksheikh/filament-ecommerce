@@ -1,102 +1,128 @@
 <div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
-    <section class="flex items-center font-poppins">
-      <div class="justify-center flex-1 max-w-6xl px-4 py-4 mx-auto bg-white border rounded-md dark:border-gray-900 dark:bg-gray-900 md:py-10 md:px-10">
-        <div>
-          <h1 class="px-4 mb-8 text-2xl font-semibold tracking-wide text-gray-700 dark:text-gray-300 ">
-            Thank you. Your order has been received. </h1>
-          <div class="flex border-b border-gray-200 dark:border-gray-700  items-stretch justify-start w-full h-full px-4 mb-8 md:flex-row xl:flex-col md:space-x-6 lg:space-x-8 xl:space-x-0">
-            <div class="flex items-start justify-start flex-shrink-0">
-              <div class="flex items-center justify-center w-full pb-6 space-x-4 md:justify-start">
-                <div class="flex flex-col items-start justify-start space-y-2">
-                  <p class="text-lg font-semibold leading-4 text-left text-gray-800 dark:text-gray-400">
-                    {{ $order->address->first_name }}</p>
-                  <p class="text-sm leading-4 text-gray-600 dark:text-gray-400">{{ $order->address->street_address }}</p>
-                  <p class="text-sm leading-4 text-gray-600 dark:text-gray-400">{{ $order->address->city }}, {{ $order->address->state }}, {{ $order->address->zip_code }}</p>
-                  <p class="text-sm leading-4 cursor-pointer dark:text-gray-400">Phone: {{ $order->address->phone }}</p>
-                </div>
-              </div>
+    <div class="max-w-4xl mx-auto">
+        <!-- Success Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-6 dark:bg-green-900/30">
+                <svg class="w-10 h-10 text-green-600 dark:text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                </svg>
             </div>
-          </div>
-          <div class="flex flex-wrap items-center pb-4 mb-10 border-b border-gray-200 dark:border-gray-700">
-            <div class="w-full px-4 mb-4 md:w-1/4">
-              <p class="mb-2 text-sm leading-5 text-gray-600 dark:text-gray-400 ">
-                Order Number: </p>
-              <p class="text-base font-semibold leading-4 text-gray-800 dark:text-gray-400">
-                {{ $order->id }}</p>
-            </div>
-            <div class="w-full px-4 mb-4 md:w-1/4">
-              <p class="mb-2 text-sm leading-5 text-gray-600 dark:text-gray-400 ">
-                Date: </p>
-              <p class="text-base font-semibold leading-4 text-gray-800 dark:text-gray-400">
-                {{ $order->created_at->format('d-m-Y') }}</p>
-            </div>
-            <div class="w-full px-4 mb-4 md:w-1/4">
-              <p class="mb-2 text-sm font-medium leading-5 text-gray-800 dark:text-gray-400 ">
-                Total: </p>
-              <p class="text-base font-semibold leading-4 text-blue-600 dark:text-gray-400">
-                {{ moneyFormat($order->grand_total) }}</p>
-            </div>
-            <div class="w-full px-4 mb-4 md:w-1/4">
-              <p class="mb-2 text-sm leading-5 text-gray-600 dark:text-gray-400 ">
-                Payment Method: </p>
-              <p class="text-base font-semibold leading-4 text-gray-800 dark:text-gray-400 ">
-                {{ $order->payment_method->getLabel() }} </p>
-            </div>
-          </div>
-          <div class="px-4 mb-10">
-            <div class="flex flex-col items-stretch justify-center w-full space-y-4 md:flex-row md:space-y-0 md:space-x-8">
-              <div class="flex flex-col w-full space-y-6 ">
-                <h2 class="mb-2 text-xl font-semibold text-gray-700 dark:text-gray-400">Order details</h2>
-                <div class="flex flex-col items-center justify-center w-full pb-4 space-y-4 border-b border-gray-200 dark:border-gray-700">
-                  <div class="flex justify-between w-full">
-                    <p class="text-base leading-4 text-gray-800 dark:text-gray-400">Subtotal</p>
-                    <p class="text-base leading-4 text-gray-600 dark:text-gray-400">{{ moneyFormat($order->grand_total - $order->shipping_amount) }}</p>
-                  </div>
-                  {{-- <div class="flex items-center justify-between w-full">
-                    <p class="text-base leading-4 text-gray-800 dark:text-gray-400">Discount
-                    </p>
-                    <p class="text-base leading-4 text-gray-600 dark:text-gray-400">00</p>
-                  </div> --}}
-                  <div class="flex items-center justify-between w-full">
-                    <p class="text-base leading-4 text-gray-800 dark:text-gray-400">Shipping</p>
-                    <p class="text-base leading-4 text-gray-600 dark:text-gray-400">{{ moneyFormat($order->shipping_amount) }}</p>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between w-full">
-                  <p class="text-base font-semibold leading-4 text-gray-800 dark:text-gray-400">Total</p>
-                  <p class="text-base font-semibold leading-4 text-gray-600 dark:text-gray-400">{{ moneyFormat($order->grand_total) }}</p>
-                </div>
-              </div>
-              <div class="flex flex-col w-full px-2 space-y-4 md:px-8 ">
-                <h2 class="mb-2 text-xl font-semibold text-gray-700 dark:text-gray-400">Shipping</h2>
-                <div class="flex items-start justify-between w-full">
-                  <div class="flex items-center justify-center space-x-2">
-                    <div class="w-8 h-8">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-6 h-6 text-blue-600 dark:text-blue-400 bi bi-truck" viewBox="0 0 16 16">
-                        <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z">
-                        </path>
-                      </svg>
-                    </div>
-                    <div class="flex flex-col items-center justify-start">
-                      <p class="text-lg font-semibold leading-6 text-gray-800 dark:text-gray-400">
-                        Delivery<br><span class="text-sm font-normal">Standard Delivery</span>
-                      </p>
-                    </div>
-                  </div>
-                  <p class="text-lg font-semibold leading-6 text-gray-800 dark:text-gray-400">{{ moneyFormat($order->shipping_amount) }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center justify-start gap-4 px-4 mt-6 ">
-            <a href="/products" class="w-full text-center px-4 py-2 text-blue-500 border border-blue-500 rounded-md md:w-auto hover:text-white hover:bg-blue-600 dark:border-gray-700 dark:hover:bg-gray-700 dark:text-gray-300">
-              Go back shopping
-            </a>
-            <a href="/my-orders" class="w-full text-center px-4 py-2 bg-blue-500 rounded-md text-gray-50 md:w-auto dark:text-gray-300 hover:bg-blue-600 dark:hover:bg-gray-700 dark:bg-gray-800">
-              View My Orders
-            </a>
-          </div>
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+                Order Placed Successfully!
+            </h1>
+            <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">
+                Thank you for your purchase. Your order has been received and is being processed.
+            </p>
         </div>
-      </div>
-    </section>
+
+        <!-- Order Overview Card -->
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-slate-800 mb-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-gray-200 dark:divide-slate-800">
+                <div class="p-6 text-center md:text-left">
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 dark:text-gray-400">Order Number</p>
+                    <p class="text-lg font-bold text-gray-900 dark:text-white hover:text-blue-600 transition-colors">{{ $order->order_number }}</p>
+                </div>
+                <div class="p-6 text-center md:text-left">
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 dark:text-gray-400">Date</p>
+                    <p class="text-lg font-bold text-gray-900 dark:text-white">{{ $order->created_at->format('M d, Y') }}</p>
+                </div>
+                <div class="p-6 text-center md:text-left">
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 dark:text-gray-400">Total Amount</p>
+                    <p class="text-lg font-bold text-blue-600 dark:text-blue-400">{{ moneyFormat($order->grand_total) }}</p>
+                </div>
+                <div class="p-6 text-center md:text-left">
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1 dark:text-gray-400">Payment Method</p>
+                    <p class="text-lg font-bold text-gray-900 dark:text-white">{{ $order->payment_method->getLabel() }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Order Items -->
+            <div class="lg:col-span-2 space-y-4">
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-sm dark:bg-slate-900 dark:border-slate-800 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-800 bg-gray-50 dark:bg-slate-800/50">
+                        <h2 class="text-lg font-bold text-gray-800 dark:text-white">Ordered Items</h2>
+                    </div>
+                    <ul class="divide-y divide-gray-200 dark:divide-slate-800">
+                        @foreach($order->items as $item)
+                        <li class="p-6 flex items-center gap-4">
+                            <div class="w-16 h-16 bg-gray-100 rounded-lg flex-shrink-0 overflow-hidden dark:bg-slate-800">
+                                <img src="{{ $item->product->images ? url('storage', $item->product->images[0]) : 'https://placehold.co/100' }}" alt="{{ $item->product->name }}" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-sm font-bold text-gray-900 dark:text-white truncate">{{ $item->product->name }}</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Quantity: {{ $item->quantity }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-bold text-gray-900 dark:text-white">{{ moneyFormat($item->total_amount) }}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ moneyFormat($item->unit_amount) }} each</p>
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                    <div class="p-6 bg-gray-50 dark:bg-slate-800/30 border-t border-gray-200 dark:border-slate-800 space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600 dark:text-gray-400">Subtotal</span>
+                            <span class="font-bold text-gray-900 dark:text-white">{{ moneyFormat($order->grand_total - $order->shipping_amount) }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600 dark:text-gray-400">Shipping</span>
+                            <span class="font-bold text-gray-900 dark:text-white">{{ moneyFormat($order->shipping_amount) }}</span>
+                        </div>
+                        <div class="flex justify-between text-lg pt-3 border-t border-gray-200 dark:border-slate-800">
+                            <span class="font-black text-gray-900 dark:text-white uppercase tracking-wider">Total</span>
+                            <span class="font-black text-blue-600 dark:text-blue-400">{{ moneyFormat($order->grand_total) }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping & Address -->
+            <div class="space-y-6">
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-sm dark:bg-slate-900 dark:border-slate-800 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-800 bg-gray-50 dark:bg-slate-800/50">
+                        <h2 class="text-lg font-bold text-gray-800 dark:text-white text-center">Shipping Information</h2>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase mb-2">Recipient</p>
+                            <p class="text-sm font-bold text-gray-800 dark:text-white">{{ $order->address->first_name }} {{ $order->address->last_name }}</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">{{ $order->address->phone }}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase mb-2">Detailed Address</p>
+                            <p class="text-sm text-gray-800 dark:text-gray-300 leading-relaxed italic">
+                                {{ $order->address->address }}
+                                {{-- {{ $order->address->area }},
+                                {{ $order->address->district }},
+                                {{ $order->address->division }} - {{ $order->address->zip_code }} --}}
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-gray-100 dark:border-slate-800 flex items-center gap-3">
+                            <div class="p-2 bg-blue-50 rounded-lg dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">
+                                <svg class="w-5 h-5 font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-400 uppercase italic">Delivery Status</p>
+                                <p class="text-sm font-bold text-green-600 dark:text-green-400">{{ $order->status->getLabel() }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col gap-3">
+                    <a href="/products" class="flex items-center justify-center w-full px-6 py-3.5 bg-gray-900 text-white font-black rounded-xl hover:bg-black transition-all transform hover:-translate-y-1 dark:bg-slate-700 dark:hover:bg-slate-600">
+                        Continue Shopping
+                    </a>
+                    <a href="/my-orders" class="flex items-center justify-center w-full px-6 py-3.5 bg-white text-gray-900 border border-gray-200 font-black rounded-xl hover:bg-gray-50 transition-all dark:bg-slate-800 dark:text-white dark:border-slate-700 dark:hover:bg-slate-700/50">
+                        My Orders
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

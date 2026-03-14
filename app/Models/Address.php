@@ -11,12 +11,10 @@ class Address extends Model
         'first_name',
         'last_name',
         'phone',
-        'street_address',
-        'city',
-        'state',
-        'division_id',
-        'district_id',
-        'area_id',
+        'address',
+        'division',
+        'district',
+        'area',
         'zip_code',
     ];
 

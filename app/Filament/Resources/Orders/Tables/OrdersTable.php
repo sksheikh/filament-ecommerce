@@ -24,6 +24,10 @@ class OrdersTable
     {
         return $table
             ->columns([
+                TextColumn::make('order_number')
+                    ->searchable()
+                    ->sortable(),
+
                 TextColumn::make('customer.name')
                     ->label('Customer')
                     ->sortable()

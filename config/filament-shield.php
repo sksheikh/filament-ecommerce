@@ -25,7 +25,7 @@ return [
             'resources' => true,
             'custom_permissions' => false,
         ],
-        'navigation_group' => 'Settings',
+        'navigation_group' => 'Role & Permission',
     ],
 
     /*

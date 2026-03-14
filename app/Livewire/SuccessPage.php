@@ -15,7 +15,7 @@ class SuccessPage extends Component
 
     public function render()
     {
-        $order = \App\Models\Order::with('address')->findOrFail($this->order_id);
+        $order = \App\Models\Order::with(['address', 'items.product'])->findOrFail($this->order_id);
         return view('livewire.success-page', [
             'order' => $order
         ]);

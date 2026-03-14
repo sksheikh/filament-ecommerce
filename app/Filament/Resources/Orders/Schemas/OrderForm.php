@@ -29,7 +29,7 @@ class OrderForm
             ->components([
                 Group::make()->schema([
                     Section::make('Order Information')->schema([
-                        Select::make('user_id')
+                        Select::make('customer_id')
                             ->label('Customer')
                             ->placeholder('Select a customer')
                             ->searchable()

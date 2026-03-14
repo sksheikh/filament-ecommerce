@@ -19,7 +19,7 @@ class DivisionResource extends Resource
 {
     protected static ?string $model = Division::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedGlobeAlt;
 
     protected static string | UnitEnum | null $navigationGroup = 'Locations';
 

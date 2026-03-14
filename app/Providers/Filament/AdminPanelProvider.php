@@ -60,7 +60,23 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->plugins([
-                FilamentShieldPlugin::make(),
+                FilamentShieldPlugin::make()
+                    ->navigationGroup('Role & Permission')
+                    ->gridColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                        'lg' => 3,
+                    ])
+                    ->sectionColumnSpan(1)
+                    ->checkboxListColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                        'lg' => 3,
+                    ])
+                    ->resourceCheckboxListColumns([
+                        'default' => 1,
+                        'sm' => 2,
+                    ]),
             ])
             ->authMiddleware([
                 Authenticate::class,
@@ -68,12 +84,16 @@ class AdminPanelProvider extends PanelProvider
             ->navigationGroups([
                 NavigationGroup::make('User Management')
                     ->collapsed(false),
+                NavigationGroup::make('Role & Permission')
+                    ->collapsed(false),
                 NavigationGroup::make('Customer Management')
                     ->collapsed(false),
                 NavigationGroup::make('Product Management')
                     ->collapsed(false),
                 NavigationGroup::make('Sale Management')
                     ->collapsed(false),
+                NavigationGroup::make('Locations')
+                    ->collapsible(false),
                 NavigationGroup::make('Settings')
                     ->collapsed(false),
             ]);

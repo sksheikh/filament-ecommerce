@@ -14,7 +14,7 @@ class MyOrdersPage extends Component
 
     public function render()
     {
-        $my_orders = Order::where('user_id', auth()->guard('customer')->id())
+        $my_orders = Order::where('customer_id', auth()->guard('customer')->id())
             ->latest()
             ->paginate(10);
 

@@ -19,7 +19,7 @@ class AreaResource extends Resource
 {
     protected static ?string $model = Area::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMapPin;
 
     protected static string | UnitEnum | null $navigationGroup = 'Locations';
 
