@@ -51,7 +51,7 @@ class OrderResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return Static::getModel()::new()->count();
+        return Static::getModel()::pending()->count();
     }
 
     public static function getPages(): array

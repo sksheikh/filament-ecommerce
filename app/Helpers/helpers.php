@@ -23,3 +23,17 @@ if (! function_exists('moneyFormat')) {
         return $formatter->formatCurrency($amount, $currency);
     }
 }
+
+if (! function_exists('getSetting')) {
+    /**
+     * Get setting value by key.
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    function getSetting($key, $default = null)
+    {
+        return \App\Models\Setting::where('key', $key)->first()?->value ?? $default;
+    }
+}

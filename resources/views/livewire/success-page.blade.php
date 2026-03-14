@@ -48,7 +48,7 @@
                         @foreach($order->items as $item)
                         <li class="p-6 flex items-center gap-4">
                             <div class="w-16 h-16 bg-gray-100 rounded-lg flex-shrink-0 overflow-hidden dark:bg-slate-800">
-                                <img src="{{ $item->product->images ? url('storage', $item->product->images[0]) : 'https://placehold.co/100' }}" alt="{{ $item->product->name }}" class="w-full h-full object-cover">
+                                <img src="{{ $item->product->image_urls[0] }}" alt="{{ $item->product->name }}" class="w-full h-full object-cover">
                             </div>
                             <div class="flex-1 min-w-0">
                                 <h3 class="text-sm font-bold text-gray-900 dark:text-white truncate">{{ $item->product->name }}</h3>
@@ -93,10 +93,10 @@
                         <div>
                             <p class="text-xs font-bold text-gray-400 uppercase mb-2">Detailed Address</p>
                             <p class="text-sm text-gray-800 dark:text-gray-300 leading-relaxed italic">
-                                {{ $order->address->address }}
-                                {{-- {{ $order->address->area }},
+                                {{ $order->address->street_address }},
+                                {{ $order->address->area }},
                                 {{ $order->address->district }},
-                                {{ $order->address->division }} - {{ $order->address->zip_code }} --}}
+                                {{ $order->address->division }} - {{ $order->address->zip_code }}
                             </p>
                         </div>
                         <div class="pt-4 border-t border-gray-100 dark:border-slate-800 flex items-center gap-3">

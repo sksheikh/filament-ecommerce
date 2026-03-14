@@ -51,7 +51,7 @@ class OrderForm
                         ToggleButtons::make('status')
                             ->inline()
                             ->options(OrderStatus::class)
-                            ->default(OrderStatus::New)
+                            ->default(OrderStatus::Pending)
                             ->required(),
 
                            Select::make('shipping_method')

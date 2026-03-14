@@ -15,8 +15,8 @@
                     <div class="grid sm:grid-cols-2 gap-4 mb-8">
                         <div class="p-4 bg-gray-50 rounded-xl dark:bg-slate-800/50 border border-gray-100 dark:border-gray-700">
                             <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-bold mb-2">Customer</p>
-                            <p class="text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $order->address->first_name }} {{ $order->address->last_name }}</p>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $order->address->phone }}</p>
+                            <p class="text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $order->address?->full_name }}</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ $order->address?->phone }}</p>
                         </div>
                         <div class="p-4 bg-gray-50 rounded-xl dark:bg-slate-800/50 border border-gray-100 dark:border-gray-700">
                             <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 font-bold mb-2">Order Info</p>
@@ -45,7 +45,7 @@
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center gap-x-3">
-                                                <img class="size-10 rounded-lg object-cover" src="{{ url('storage', $item->product->images[0]) }}" alt="{{ $item->product->name }}">
+                                                <img class="size-10 rounded-lg object-cover" src="{{ $item->product->image_urls[0] }}" alt="{{ $item->product->name }}">
                                                 <span class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ $item->product->name }}</span>
                                             </div>
                                         </td>
@@ -63,9 +63,10 @@
                         <div>
                             <h4 class="text-sm font-bold text-gray-800 dark:text-white uppercase mb-4">Shipping Address</h4>
                             <div class="p-4 bg-gray-50 rounded-xl dark:bg-slate-800/50 border border-gray-100 dark:border-gray-700">
-                                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                                    {{ $order->address->street_address }}<br>
-                                    {{ $order->address->city }}, {{ $order->address->state }} {{ $order->address->zip_code }}
+                                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed italic">
+                                    {{ $order->address?->street_address }}<br>
+                                    {{ $order->address?->area }}, {{ $order->address?->district }}<br>
+                                    {{ $order->address?->division }} - {{ $order->address?->zip_code }}
                                 </p>
                             </div>
                         </div>

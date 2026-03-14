@@ -56,15 +56,15 @@ class Product extends Model
 
     public function getImageUrlsAttribute()
     {
-        if(!empty($this->images)){
-           return collect($this->images)
-            ->filter() // remove null/empty
+        $images = collect($this->images ?? [])
+            ->filter()
             ->map(fn($image) => Storage::url($image))
-            ->values()
-            ->toArray();
+            ->values();
+
+        if ($images->isEmpty()) {
+            return [asset('images/default-image.png')];
         }
 
-        return [asset('images/default-image.png')];
-
+        return $images->toArray();
     }
 }

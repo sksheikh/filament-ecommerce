@@ -11,7 +11,7 @@ class CheckoutPage extends Component
     public $first_name;
     public $last_name;
     public $phone;
-    public $address;
+    public $street_address;
     public $division;
     public $district;
     public $area;
@@ -34,7 +34,7 @@ class CheckoutPage extends Component
         if (auth()->guard('customer')->check()) {
             $customer = auth()->guard('customer')->user();
             
-            // Split name into first and last name if possible
+            // Split name into first and last name for the address form if possible
             $nameParts = explode(' ', $customer->name, 2);
             $this->first_name = $nameParts[0] ?? '';
             $this->last_name = $nameParts[1] ?? '';
@@ -67,7 +67,7 @@ class CheckoutPage extends Component
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
-            'address' => 'required',
+            'street_address' => 'required',
             'division' => 'required',
             'district' => 'required',
             'area' => 'required',
@@ -83,7 +83,7 @@ class CheckoutPage extends Component
         $order->grand_total = $grand_total;
         $order->payment_method = $this->payment_method;
         $order->payment_status = \App\Enums\PaymentStatus::Pending;
-        $order->status = \App\Enums\OrderStatus::New;
+        $order->status = \App\Enums\OrderStatus::Pending;
         $order->currency = 'BDT';
         $order->shipping_amount = 0;
         // $order->shipping_method = \App\Enums\ShippingMethod::Standard;
@@ -99,14 +99,18 @@ class CheckoutPage extends Component
             ]);
         }
 
+        $division_name = \App\Models\Division::find($this->division)?->name;
+        $district_name = \App\Models\District::find($this->district)?->name;
+        $area_name = \App\Models\Area::find($this->area)?->name;
+
         $order->address()->create([
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'phone' => $this->phone,
-            'address' => $this->address,
-            'division' => $this->division->name,
-            'district' => $this->district->name,
-            'area' => $this->area->name,
+            'street_address' => $this->street_address,
+            'division' => $division_name,
+            'district' => $district_name,
+            'area' => $area_name,
             'zip_code' => $this->zip_code,
         ]);
 

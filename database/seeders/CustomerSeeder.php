@@ -13,20 +13,18 @@ class CustomerSeeder extends Seeder
     public function run(): void
     {
         \App\Models\Customer::updateOrCreate([
-            'first_name' => 'Demo',
-            'last_name' => 'Customer',
             'email' => 'customer@app.com',
         ], [
+            'name' => 'Demo Customer',
             'password' => \Illuminate\Support\Facades\Hash::make('password'),
             'phone' => '1234567890',
             'is_active' => true,
         ]);
 
         \App\Models\Customer::updateOrCreate([
-            'first_name' => 'Inactive',
-            'last_name' => 'Customer',
             'email' => 'inactive@app.com',
         ], [
+            'name' => 'Inactive Customer',
             'password' => \Illuminate\Support\Facades\Hash::make('password'),
             'phone' => '0987654321',
             'is_active' => false,

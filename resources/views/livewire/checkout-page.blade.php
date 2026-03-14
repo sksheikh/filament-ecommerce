@@ -86,11 +86,11 @@
 					</div>
 
 					<div class="mt-4">
-						<label class="block text-gray-700 dark:text-white mb-1" for="address">
-							Address <span class="text-red-500">*</span>
+						<label class="block text-gray-700 dark:text-white mb-1" for="street_address">
+							Street Address <span class="text-red-500">*</span>
 						</label>
-						<input wire:model="address" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="address" type="text" placeholder="Detailed Address">
-						@error('address') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+						<input wire:model="street_address" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="street_address" type="text" placeholder="Detailed Address">
+						@error('street_address') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 					</div>
 
                     <div class="mt-4">

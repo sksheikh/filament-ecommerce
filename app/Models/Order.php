@@ -43,8 +43,8 @@ class Order extends Model
         return $this->hasOne(Address::class);
     }
 
-    public function scopeNew($query)
+    public function scopePending($query)
     {
-        return $query->where('status', 'new');
+        return $query->where('status', 'pending');
     }
 }

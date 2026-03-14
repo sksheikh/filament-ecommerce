@@ -29,7 +29,7 @@
                                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                             @forelse ($orders as $order)
                                                 <tr class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-800 dark:text-gray-200">#{{ $order->id }}</td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-800 dark:text-gray-200">#{{ $order->order_number }}</td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">{{ $order->created_at->format('d M, Y') }}</td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                                                         <span class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium {{ $order->payment_status->getColor() == 'success' ? 'bg-green-100 text-green-800' : ($order->payment_status->getColor() == 'danger' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">

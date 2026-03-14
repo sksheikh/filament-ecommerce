@@ -35,17 +35,20 @@ class AddressRelationManager extends RelationManager
                     ->tel()
                     ->maxLength(20),
 
-                TextInput::make('city')
+                TextInput::make('division')
                     ->required()
                     ->maxLength(255),
 
-                TextInput::make('state')
+                TextInput::make('district')
+                    ->required()
+                    ->maxLength(255),
+
+                TextInput::make('area')
                     ->required()
                     ->maxLength(255),
 
                 TextInput::make('zip_code')
                     ->required()
-                    ->numeric()
                     ->maxLength(20),
 
                 Textarea::make('street_address')
@@ -63,8 +66,9 @@ class AddressRelationManager extends RelationManager
                     ->label('Full Name')
                     ->searchable(),
                 TextColumn::make('phone'),
-                TextColumn::make('city'),
-                TextColumn::make('state'),
+                TextColumn::make('division'),
+                TextColumn::make('district'),
+                TextColumn::make('area'),
                 TextColumn::make('zip_code'),
                 TextColumn::make('street_address'),
             ])

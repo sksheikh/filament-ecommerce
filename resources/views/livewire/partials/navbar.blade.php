@@ -69,7 +69,7 @@
             @auth('customer')
                 <div class="hs-dropdown relative [--trigger:hover] [--placement:bottom-right]">
                     <button type="button" class="w-full flex items-center text-gray-500 hover:text-gray-400 font-medium py-3 md:py-6 dark:text-gray-400 dark:hover:text-gray-500">
-                    {{ auth('customer')->user()->name }}
+                    {{ auth('customer')->user()->first_name }}
                     <svg class="ms-2 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="m6 9 6 6 6-6" />
                     </svg>

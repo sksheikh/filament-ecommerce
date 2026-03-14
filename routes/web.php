@@ -47,3 +47,8 @@ Route::middleware(['auth:customer'])->group(function () {
     Route::get('/success/{order}',  SuccessPage::class)->name('success');
     Route::get('/cancel', CancelPage::class)->name('cancel');
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/orders/{order}/invoice', [App\Http\Controllers\OrderPrintController::class, 'invoice'])->name('admin.orders.invoice');
+    Route::get('/admin/orders/{order}/delivery-slip', [App\Http\Controllers\OrderPrintController::class, 'deliverySlip'])->name('admin.orders.delivery-slip');
+});
