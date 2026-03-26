@@ -2,21 +2,23 @@
 
 namespace App\Filament\Resources\Orders\Tables;
 
-use Dom\Text;
+use App\Models\Order;
 use App\Enums\OrderStatus;
 use Filament\Tables\Table;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
 use App\Enums\ShippingMethod;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
-use Filament\Actions\ActionGroup;
-use Filament\Actions\DeleteAction;
 use Filament\Actions\BulkActionGroup;
-use Filament\Forms\Components\Select;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+// use Filament\Tables\Actions\ActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Tables\Columns\SelectColumn;
+use Filament\Actions\ActionGroup;
+
 
 class OrdersTable
 {
@@ -68,14 +70,22 @@ class OrdersTable
             ->filters([
                 //
             ])
-            ->recordActions([
+            ->actions([
                ActionGroup::make([
                     ViewAction::make(),
                     EditAction::make(),
                     DeleteAction::make(),
+                    Action::make('invoice')
+                        ->label('Invoice')
+                        ->icon('heroicon-o-document-text')
+                        ->url(fn(Order $record): string => \App\Filament\Resources\Orders\OrderResource::getUrl('invoice', ['record' => $record])),
+                    Action::make('delivery-slip')
+                        ->label('Delivery Slip')
+                        ->icon('heroicon-o-truck')
+                        ->url(fn(Order $record): string => \App\Filament\Resources\Orders\OrderResource::getUrl('delivery-slip', ['record' => $record])),
                ])
             ])
-            ->toolbarActions([
+            ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),

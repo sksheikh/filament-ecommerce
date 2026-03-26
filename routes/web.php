@@ -49,6 +49,6 @@ Route::middleware(['auth:customer'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/orders/{order}/invoice', [App\Http\Controllers\OrderPrintController::class, 'invoice'])->name('admin.orders.invoice');
-    Route::get('/admin/orders/{order}/delivery-slip', [App\Http\Controllers\OrderPrintController::class, 'deliverySlip'])->name('admin.orders.delivery-slip');
+//    Route::get('/admin/orders/{order}/invoice', [App\Http\Controllers\OrderPrintController::class, 'invoice'])->name('admin.orders.invoice');
+//    Route::get('/admin/orders/{order}/delivery-slip', [App\Http\Controllers\OrderPrintController::class, 'deliverySlip'])->name('admin.orders.delivery-slip');
 });

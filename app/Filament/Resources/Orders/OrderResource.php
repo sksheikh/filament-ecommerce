@@ -3,7 +3,9 @@
 namespace App\Filament\Resources\Orders;
 
 use App\Filament\Resources\Orders\Pages\CreateOrder;
+use App\Filament\Resources\Orders\Pages\DeliverySlip;
 use App\Filament\Resources\Orders\Pages\EditOrder;
+use App\Filament\Resources\Orders\Pages\InvoiceOrder;
 use App\Filament\Resources\Orders\Pages\ListOrders;
 use App\Filament\Resources\Orders\Pages\ViewOrder;
 use App\Filament\Resources\Orders\RelationManagers\AddressRelationManager;
@@ -59,6 +61,8 @@ class OrderResource extends Resource
         return [
             'index' => ListOrders::route('/'),
             'create' => CreateOrder::route('/create'),
+            'invoice' => InvoiceOrder::route('/{record}/invoice'),
+            'delivery-slip' => DeliverySlip::route('/{record}/delivery-slip'),
             'view' => ViewOrder::route('/{record}'),
             'edit' => EditOrder::route('/{record}/edit'),
         ];
