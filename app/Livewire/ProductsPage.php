@@ -7,12 +7,9 @@ use App\Models\Product;
 use Livewire\Component;
 use App\Models\Category;
 use Livewire\Attributes\Url;
-use Livewire\Attributes\Title;
 use App\Helpers\CartManagement;
 use App\Livewire\Partials\Navbar;
 
-
-#[Title('Products | Nafisa Mart')]
 class ProductsPage extends Component
 {
 
@@ -94,6 +91,7 @@ class ProductsPage extends Component
             'products' => $products,
             'categories' => $categories,
             'brands' => $brands,
-        ]);
+        ])
+        ->title("Products | " . config('app.name'));
     }
 }

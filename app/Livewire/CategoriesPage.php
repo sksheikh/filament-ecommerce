@@ -6,7 +6,6 @@ use Livewire\Component;
 use App\Models\Category;
 use Livewire\Attributes\Title;
 
-#[Title('Our Categories | Nafisa Mart')]
 class CategoriesPage extends Component
 {
     public function render()
@@ -15,6 +14,6 @@ class CategoriesPage extends Component
 
         return view('livewire.categories-page', [
             'categories' => $categories
-        ]);
+        ])->title("Our Categories | " . config('app.name'));
     }
 }

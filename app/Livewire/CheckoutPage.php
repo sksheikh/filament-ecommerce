@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Helpers\CartManagement;
 use Livewire\Component;
 
-#[Title('Checkout | Nafisa Mart')]
 class CheckoutPage extends Component
 {
     public $first_name;
@@ -149,6 +148,7 @@ class CheckoutPage extends Component
             'subtotal' => $subtotal,
             'grand_total' => $grand_total,
             'shipping_amount' => $this->shipping_amount,
-        ]);
+        ])
+        ->title("Checkout | " . config('app.name'));
     }
 }

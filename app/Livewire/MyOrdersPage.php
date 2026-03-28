@@ -5,9 +5,7 @@ namespace App\Livewire;
 use App\Models\Order;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Title;
 
-#[Title('My Orders - Nafisa Mart')]
 class MyOrdersPage extends Component
 {
     use WithPagination;
@@ -20,6 +18,7 @@ class MyOrdersPage extends Component
 
         return view('livewire.my-orders-page', [
             'orders' => $my_orders,
-        ]);
+        ])
+        ->title("My Orders | " . config('app.name'));
     }
 }

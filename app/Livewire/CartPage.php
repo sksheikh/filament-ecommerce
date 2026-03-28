@@ -6,7 +6,6 @@ use Livewire\Component;
 use Livewire\Attributes\Title;
 use App\Helpers\CartManagement;
 
-#[Title('Cart | Nafisa Mart')]
 class CartPage extends Component
 {
     public $cart_items = [];
@@ -44,6 +43,7 @@ class CartPage extends Component
 
     public function render()
     {
-        return view('livewire.cart-page');
+        return view('livewire.cart-page')
+        ->title("Cart | " . config('app.name'));
     }
 }

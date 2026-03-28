@@ -8,6 +8,7 @@ class CancelPage extends Component
 {
     public function render()
     {
-        return view('livewire.cancel-page');
+        return view('livewire.cancel-page')
+        ->title("Cancel Order | " . config('app.name'));
     }
 }

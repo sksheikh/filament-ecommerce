@@ -3,10 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Product;
-use Livewire\Attributes\Title;
 use Livewire\Component;
 
-#[Title('Product Details | Nafisa Mart')]
 class ProductDetailPage extends Component
 {
     public $slug;
@@ -45,6 +43,7 @@ class ProductDetailPage extends Component
 
         return view('livewire.product-detail-page',[
             'product' => $product
-        ]);
+        ])
+        ->title("Product Details | " . config('app.name'));
     }
 }

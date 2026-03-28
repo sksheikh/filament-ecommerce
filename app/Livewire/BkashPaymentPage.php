@@ -6,7 +6,7 @@ use App\Models\Order;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 
-#[Title('Bkash Payment - Nafisa Mart')]
+
 class BkashPaymentPage extends Component
 {
     public $order_id;
@@ -58,6 +58,7 @@ class BkashPaymentPage extends Component
         return view('livewire.bkash-payment-page', [
             'order' => $order,
             'bkash_number' => $bkash_number
-        ]);
+        ])
+        ->title("bKash Payment | " . config('app.name'));
     }
 }

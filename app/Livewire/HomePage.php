@@ -7,7 +7,6 @@ use App\Models\Product;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 
-#[Title("Home Page | Nafisa Mart")]
 class HomePage extends Component
 {
     public function render()
@@ -33,6 +32,6 @@ class HomePage extends Component
             'brands' => $brands,
             'featuredProducts' => $featuredProducts,
             'bestSellingProducts' => $bestSellingProducts,
-        ]);
+        ])->title("Home Page | " . config('app.name'));
     }
 }

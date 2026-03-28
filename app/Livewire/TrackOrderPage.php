@@ -3,9 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use Livewire\Attributes\Title;
 
-#[Title('Track Your Order | Nafisa Mart')]
 class TrackOrderPage extends Component
 {
     public $order_number;
@@ -33,6 +31,7 @@ class TrackOrderPage extends Component
 
     public function render()
     {
-        return view('livewire.track-order-page');
+        return view('livewire.track-order-page')
+            ->title("Track Order | " . config('app.name'));
     }
 }

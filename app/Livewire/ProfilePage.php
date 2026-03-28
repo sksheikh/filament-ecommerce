@@ -6,7 +6,6 @@ use Livewire\Component;
 use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Hash;
 
-#[Title('My Profile - Nafisa Mart')]
 class ProfilePage extends Component
 {
     public $first_name;
@@ -146,6 +145,7 @@ class ProfilePage extends Component
 
     public function render()
     {
-        return view('livewire.profile-page');
+        return view('livewire.profile-page')
+        ->title("My Profile | " . config('app.name'));
     }
 }

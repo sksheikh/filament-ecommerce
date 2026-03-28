@@ -6,11 +6,11 @@ use Livewire\Component;
 
 use Livewire\Attributes\Title;
 
-#[Title('About Us | Nafisa Mart')]
 class AboutPage extends Component
 {
     public function render()
     {
-        return view('livewire.about-page');
+        return view('livewire.about-page')
+            ->title("About Us | " . config('app.name'));
     }
 }
