@@ -17,7 +17,7 @@ use App\Filament\Resources\Orders\OrderResource;
 class LatestOrders extends TableWidget
 {
     protected int | string | array $columnSpan = 'full';
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 4;
     public function table(Table $table): Table
     {
         return $table
@@ -25,11 +25,11 @@ class LatestOrders extends TableWidget
             ->defaultPaginationPageOption(5)
             ->defaultSort('created_at', 'desc')
             ->columns([
-                TextColumn::make('id')
+                TextColumn::make('order_number')
                     ->label('Order ID')
                     ->searchable(),
 
-                TextColumn::make('user.name')
+                TextColumn::make('customer.name')
                     ->label('Customer')
                     ->searchable(),
 

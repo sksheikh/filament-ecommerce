@@ -9,13 +9,15 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class OrderOverview extends StatsOverviewWidget
 {
+    protected static ?int $sort = 1;
+
     protected function getStats(): array
     {
         return [
             Stat::make('Pending Orders', Order::query()->pending()->count()),
             Stat::make('Order Processing', Order::query()->where('status', 'processing')->count()),
             Stat::make('Order Shipped', Order::query()->where('status', 'shipped')->count()),
-            Stat::make('Avarage Price', Number::currency(Order::query()->avg('grand_total') ?? 0, 'BDT')),
+            Stat::make('Total Sales', Number::currency(Order::query()->sum('grand_total') ?? 0, 'BDT')),
         ];
     }
 }

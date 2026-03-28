@@ -17,4 +17,9 @@ class Area extends Model
     {
         return $this->belongsTo(District::class);
     }
+
+    public function deliveryCharges()
+    {
+        return $this->belongsToMany(DeliveryCharge::class, 'delivery_charge_areas');
+    }
 }

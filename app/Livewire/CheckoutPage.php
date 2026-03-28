@@ -18,6 +18,7 @@ class CheckoutPage extends Component
     public $zip_code;
     public $payment_method;
     public $notes;
+    public $shipping_amount = 0;
 
     public $divisions = [];
     public $districts = [];
@@ -49,12 +50,25 @@ class CheckoutPage extends Component
         $this->district = null;
         $this->area = null;
         $this->areas = [];
+        $this->shipping_amount = 0;
     }
 
     public function updatedDistrict($districtId)
     {
         $this->areas = \App\Models\Area::where('district_id', $districtId)->get();
         $this->area = null;
+
+        $this->calculateShipping();
+    }
+
+    public function updatedArea($areaId)
+    {
+        $this->calculateShipping();
+    }
+
+    protected function calculateShipping()
+    {
+        $this->shipping_amount = \App\Helpers\ShippingChargeManagement::getShippingCharge($this->district, $this->area);
     }
 
     public function placeOrder()
@@ -75,7 +89,8 @@ class CheckoutPage extends Component
         ]);
 
         $cart_items = CartManagement::getCartItemsFromCookie();
-        $grand_total = CartManagement::calculateGrandTotal($cart_items);
+        $subtotal = CartManagement::calculateGrandTotal($cart_items);
+        $grand_total = $subtotal + $this->shipping_amount;
 
         $order = new \App\Models\Order();
         $order->order_number = \App\Helpers\OrderNumberGenerator::generate();
@@ -85,7 +100,7 @@ class CheckoutPage extends Component
         $order->payment_status = \App\Enums\PaymentStatus::Pending;
         $order->status = \App\Enums\OrderStatus::Pending;
         $order->currency = 'BDT';
-        $order->shipping_amount = 0;
+        $order->shipping_amount = $this->shipping_amount;
         // $order->shipping_method = \App\Enums\ShippingMethod::Standard;
         $order->notes = $this->notes;
         $order->save();
@@ -126,10 +141,14 @@ class CheckoutPage extends Component
     public function render()
     {
         $cart_items = CartManagement::getCartItemsFromCookie();
-        $grand_total = CartManagement::calculateGrandTotal($cart_items);
+        $subtotal = CartManagement::calculateGrandTotal($cart_items);
+        $grand_total = $subtotal + $this->shipping_amount;
+
         return view('livewire.checkout-page',[
             'cart_items' => $cart_items,
+            'subtotal' => $subtotal,
             'grand_total' => $grand_total,
+            'shipping_amount' => $this->shipping_amount,
         ]);
     }
 }

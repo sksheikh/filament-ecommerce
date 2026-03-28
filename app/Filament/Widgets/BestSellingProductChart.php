@@ -7,8 +7,10 @@ use Filament\Widgets\ChartWidget;
 
 class BestSellingProductChart extends ChartWidget
 {
+    protected static ?int $sort = 2;
+
     protected ?string $heading = 'Best Selling Product';
-    protected ?string $maxHeight = '280px';
+    protected ?string $maxHeight = '300px';
 
     protected function getData(): array
     {

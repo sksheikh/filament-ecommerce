@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class OrderChart extends ChartWidget
 {
+    protected static ?int $sort = 2;
+
     protected ?string $heading = 'Orders Overview';
-    // protected ?string $maxHeight = '250px';
+
+    protected ?string $maxHeight = '300px';
 
     protected string $color = 'info';
 

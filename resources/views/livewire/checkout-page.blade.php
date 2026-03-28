@@ -75,7 +75,7 @@
 							<label class="block text-gray-700 dark:text-white mb-1" for="area">
 								Area <span class="text-red-500">*</span>
 							</label>
-                            <select wire:model="area" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="area" @if(empty($areas)) disabled @endif>
+                            <select wire:model.live="area" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="area" @if(empty($areas)) disabled @endif>
                                 <option value="">Select Area</option>
                                 @foreach($areas as $ar)
                                     <option value="{{ $ar->id }}">{{ $ar->name }}</option>
@@ -151,27 +151,19 @@
 						Subtotal
 					</span>
 					<span>
-						{{ moneyFormat($grand_total) }}
+						{{ moneyFormat($subtotal) }}
 					</span>
 				</div>
-				{{-- <div class="flex justify-between mb-2 font-bold dark:text-white">
-					<span>
-						Taxes
-					</span>
-					<span>
-						0.00
-					</span>
-				</div> --}}
 				<div class="flex justify-between mb-2 font-bold dark:text-white">
 					<span>
 						Shipping Cost
 					</span>
 					<span>
-						{{ moneyFormat(0) }}
+						{{ moneyFormat($shipping_amount) }}
 					</span>
 				</div>
 				<hr class="bg-slate-400 my-4 h-1 rounded">
-				<div class="flex justify-between mb-2 font-bold dark:text-white">
+				<div class="flex justify-between mb-2 font-bold dark:text-white text-lg">
 					<span>
 						Grand Total
 					</span>
