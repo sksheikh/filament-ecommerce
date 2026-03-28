@@ -194,7 +194,7 @@
     @if($brands->count() > 0)
     <section class="py-20 bg-white border-t border-gray-50">
         <div class="max-w-[85rem] mx-auto px-4 text-center">
-            <p class="text-sm font-bold text-slate-400 uppercase tracking-[0.3em] mb-12">Authorized Partners</p>
+            <p class="text-sm font-bold text-slate-400 uppercase tracking-[0.3em] mb-12">Trusted Brands</p>
             <div class="flex flex-wrap justify-center items-center gap-12 lg:gap-24 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
                 @foreach($brands as $brand)
                     <div class="h-8 lg:h-12 w-auto flex items-center justify-center group">

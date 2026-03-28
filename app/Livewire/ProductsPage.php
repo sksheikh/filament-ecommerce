@@ -26,10 +26,17 @@ class ProductsPage extends Component
     public $on_sale;
 
     #[Url()]
-    public $price_range = 3000;
+    public $price_range;
 
     #[Url()]
     public $sort = "latest";
+
+    public function mount()
+    {
+        if (!$this->price_range) {
+            $this->price_range = Product::active()->max('price') ?? 500000;
+        }
+    }
 
     public function addToCart($productId){
         $total_count = CartManagement::addItemToCart($productId);
@@ -86,11 +93,14 @@ class ProductsPage extends Component
             ->active()
             ->orderBy('name','asc')
             ->get();
+            
+        $max_price = Product::active()->max('price') ?? 500000;
 
         return view('livewire.products-page',[
             'products' => $products,
             'categories' => $categories,
             'brands' => $brands,
+            'max_price' => $max_price,
         ])
         ->title("Products | " . config('app.name'));
     }

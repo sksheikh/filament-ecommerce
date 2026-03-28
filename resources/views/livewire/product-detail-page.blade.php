@@ -1,78 +1,150 @@
-<div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
-  <section class="overflow-hidden bg-white py-11 font-poppins dark:bg-gray-800">
-    <div class="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
-      <div class="flex flex-wrap -mx-4">
-        <div class="w-full mb-8 md:w-1/2 md:mb-0" x-data="{ mainImage: '{{ count($product->image_urls) > 0 ? $product->image_urls[0] : asset('images/default-image.png') }}' }">
-          <div class="sticky top-0 z-10 overflow-hidden ">
-            <div class="relative mb-6 lg:mb-10 lg:h-2/4 ">
-              <img x-bind:src="mainImage" alt="{{ $product->name }}" class="object-cover w-full lg:h-full ">
-            </div>
-
-            <div class="flex-wrap hidden md:flex ">
-            @foreach ($product->image_urls as $url)
-                <div class="w-1/2 p-2 sm:w-1/4" x-on:click="mainImage='{{ $url }}'" wire:key="{{ $loop->index }}">
-                <img src="{{ $url }}" alt="" class="object-cover w-full lg:h-20 cursor-pointer hover:border hover:border-blue-500">
+<div class="bg-slate-50 min-h-screen">
+    <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-20">
+        {{-- Product Main Display --}}
+        <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-slate-100 p-8 md:p-16 mb-20 relative">
+            {{-- Abstract Pattern Background --}}
+            <div class="absolute top-0 right-0 w-96 h-96 bg-blue-50/50 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+            
+            <div class="grid lg:grid-cols-2 gap-16 relative z-10">
+                {{-- Left: Image Gallery --}}
+                <div x-data="{ activeImage: '{{ count($product->image_urls) > 0 ? $product->image_urls[0] : asset('images/default-image.png') }}' }">
+                    <div class="bg-slate-50 rounded-[2.5rem] p-4 mb-6 group overflow-hidden border border-slate-100 shadow-inner">
+                        <img :src="activeImage" alt="{{ $product->name }}" 
+                             class="w-full h-[400px] object-contain transition-transform duration-700 group-hover:scale-110">
+                    </div>
+                    
+                    @if(count($product->image_urls) > 1)
+                    <div class="flex gap-4 overflow-x-auto pb-2 custom-scrollbar">
+                        @foreach($product->image_urls as $url)
+                        <button @click="activeImage = '{{ $url }}'" 
+                                :class="activeImage === '{{ $url }}' ? 'border-blue-600 ring-2 ring-blue-100' : 'border-slate-100 hover:border-blue-300'"
+                                class="flex-shrink-0 w-24 h-24 bg-white border-2 rounded-2xl overflow-hidden transition-all duration-300 shadow-sm p-1">
+                            <img src="{{ $url }}" class="w-full h-full object-cover rounded-xl" alt="Gallery image">
+                        </button>
+                        @endforeach
+                    </div>
+                    @endif
                 </div>
-            @endforeach
-            </div>
 
-            <div class="px-6 pb-6 mt-6 border-t border-gray-300 dark:border-gray-400 ">
-              <div class="flex flex-wrap items-center mt-6">
-                <span class="mr-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="w-4 h-4 text-gray-700 dark:text-gray-400 bi bi-truck" viewBox="0 0 16 16">
-                    <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z">
-                    </path>
-                  </svg>
-                </span>
-                <h2 class="text-lg font-bold text-gray-700 dark:text-gray-400">Free Shipping</h2>
-              </div>
+                {{-- Right: Product Details --}}
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-full">
+                            {{ $product->category->name ?? 'Gadget' }}
+                        </span>
+                        @if($product->on_sale)
+                        <span class="px-3 py-1 bg-red-100 text-red-600 text-[10px] font-black uppercase tracking-widest rounded-full">
+                            Sale Active
+                        </span>
+                        @endif
+                    </div>
+
+                    <h1 class="text-3xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
+                        {{ $product->name }}
+                    </h1>
+
+                    <div class="flex items-center gap-4 mb-8">
+                        <span class="text-4xl font-black text-blue-600">
+                            {{ moneyFormat($product->price) }}
+                        </span>
+                        @if($product->is_stock)
+                        <span class="flex items-center gap-1.5 text-xs font-bold text-green-500 bg-green-50 px-3 py-1 rounded-full">
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                            In Stock
+                        </span>
+                        @else
+                        <span class="flex items-center gap-1.5 text-xs font-bold text-red-500 bg-red-50 px-3 py-1 rounded-full">
+                            OutOf Stock
+                        </span>
+                        @endif
+                    </div>
+
+                    <div class="prose prose-slate max-w-none text-slate-600 leading-relaxed mb-10 border-t border-slate-100 pt-8">
+                        {!! Str::markdown($product->description ?? 'No description available for this product.') !!}
+                    </div>
+
+                    {{-- Quality Controls & Add to Cart --}}
+                    @if($product->is_stock)
+                    <div class="mt-auto space-y-6">
+                        <div class="flex items-center gap-6">
+                            <div class="flex items-center bg-slate-100 rounded-2xl p-1.5 border border-slate-100">
+                                <button wire:click="decreaseQuantity" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-white hover:shadow-sm text-slate-500 transition-all font-bold">-</button>
+                                <input type="text" wire:model="quantity" readonly class="w-12 text-center bg-transparent border-none text-slate-900 font-black focus:ring-0">
+                                <button wire:click="increaseQuantity" class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-white hover:shadow-sm text-slate-500 transition-all font-bold">+</button>
+                            </div>
+                            <span class="text-slate-400 text-xs font-bold">Adjust quantity to your needs</span>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button wire:click="addToCart({{ $product->id }})" 
+                                    class="flex-1 bg-slate-900 text-white flex items-center justify-center gap-3 py-5 rounded-2xl font-black shadow-xl hover:bg-blue-600 transition-all active:scale-95 group">
+                                <svg wire:loading.remove wire:target="addToCart({{ $product->id }})" class="w-5 h-5 transition-transform group-hover:rotate-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                                </svg>
+                                <span wire:loading wire:target="addToCart({{ $product->id }})" class="w-5 h-5 border-2 border-white rounded-full border-t-transparent animate-spin"></span>
+                                <span wire:loading.remove wire:target="addToCart({{ $product->id }})">Add to Bag</span>
+                                <span wire:loading wire:target="addToCart({{ $product->id }})">Adding to Bag...</span>
+                            </button>
+                        </div>
+                    </div>
+                    @endif
+                </div>
             </div>
-          </div>
         </div>
 
-        <div class="w-full px-4 md:w-1/2 ">
-          <div class="lg:pl-20">
-            <div class="mb-8 [&>ul]:list-disc [&>ul]:ml-4">
-              <h2 class="max-w-xl mb-6 text-2xl font-bold dark:text-gray-400 md:text-4xl">
-                {{ $product->name }}</h2>
-              <p class="inline-block mb-6 text-4xl font-bold text-gray-700 dark:text-gray-400 ">
-                <span>{{ moneyFormat($product->price) }}</span>
-                {{-- <span class="text-base font-normal text-gray-500 line-through dark:text-gray-400">$1800.99</span> --}}
-              </p>
-              <p class="max-w-md text-gray-700 dark:text-gray-400">
-               {!! Str::markdown($product->description ?? '') !!}
-              </p>
+        {{-- Related Products Section --}}
+        @if($relatedProducts->count() > 0)
+        <div class="mb-20">
+            <div class="flex items-center justify-between mb-12">
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
+                    People also <span class="text-blue-600 italic">love</span>
+                </h2>
+                <a href="/products?selected_categories[0]={{ $product->category_id }}" class="text-sm font-black text-slate-400 hover:text-blue-600 transition-colors uppercase tracking-[0.2em]">View All</a>
             </div>
 
-            <div class="w-32 mb-8 ">
-              <label for="" class="w-full pb-1 text-xl font-semibold text-gray-700 border-b border-blue-300 dark:border-gray-600 dark:text-gray-400">Quantity</label>
-              <div class="relative flex flex-row w-full h-10 mt-6 bg-transparent rounded-lg">
-                <button wire:click="decreaseQuantity" class="w-20 h-full text-gray-600 bg-gray-300 rounded-l outline-none cursor-pointer dark:hover:bg-gray-700 dark:text-gray-400 hover:text-gray-700 dark:bg-gray-900 hover:bg-gray-400">
-                  <span class="m-auto text-2xl font-thin">-</span>
-                </button>
-                <input
-                    type="number"
-                    wire:model="quantity"
-                    readonly
-                    class="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-300 outline-none dark:text-gray-400 dark:placeholder-gray-400 dark:bg-gray-900 focus:outline-none text-md hover:text-black" placeholder="1">
-                <button wire:click="increaseQuantity" class="w-20 h-full text-gray-600 bg-gray-300 rounded-r outline-none cursor-pointer dark:hover:bg-gray-700 dark:text-gray-400 dark:bg-gray-900 hover:text-gray-700 hover:bg-gray-400">
-                  <span class="m-auto text-2xl font-thin">+</span>
-                </button>
-              </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                @foreach($relatedProducts as $related)
+                <div x-data="{ hover: false }" 
+                     @mouseenter="hover = true" @mouseleave="hover = false"
+                     class="group bg-white rounded-[2.5rem] border border-slate-100 p-6 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 flex flex-col items-center text-center">
+                    
+                    <a href="/products/{{ $related->slug }}" class="w-full relative mb-6">
+                        <div class="aspect-square bg-slate-50 rounded-[2rem] p-6 flex items-center justify-center group-hover:bg-white transition-colors duration-500 overflow-hidden border border-slate-100">
+                             <img src="{{ $related->image_urls[0] }}" alt="{{ $related->name }}" 
+                                  class="max-h-full max-w-full object-contain transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                    </a>
+
+                    <h3 class="text-lg font-black text-slate-800 mb-2 truncate w-full px-2">
+                        <a href="/products/{{ $related->slug }}" class="hover:text-blue-600 transition-colors">{{ $related->name }}</a>
+                    </h3>
+                    <p class="text-blue-600 font-black mb-6">{{ moneyFormat($related->price) }}</p>
+
+                    <button wire:click.prevent="addToCart({{ $related->id }}, 1)" 
+                            class="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center shadow-lg hover:bg-blue-600 active:scale-95 transition-all">
+                        <svg wire:loading.remove wire:target="addToCart({{ $related->id }}, 1)" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                        <span wire:loading wire:target="addToCart({{ $related->id }}, 1)" class="w-4 h-4 border-2 border-white rounded-full border-t-transparent animate-spin"></span>
+                    </button>
+                </div>
+                @endforeach
             </div>
-            <div class="flex flex-wrap items-center gap-4">
-              <a
-                href="#"
-                wire:click.prevent="addToCart({{ $product->id }})"
-                class="w-full p-4 bg-blue-500 rounded-md lg:w-2/5 dark:text-gray-200 text-gray-50 hover:bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-700">
-               <span wire:loading.remove wire:target="addToCart({{ $product->id }})"> Add to cart</span>
-                <span wire:loading wire:target="addToCart({{ $product->id }})"> Adding...</span>
-               <span></span>
-            </a>
-            </div>
-          </div>
         </div>
-      </div>
+        @endif
+
+        {{-- Help Banner --}}
+        <div class="bg-blue-600 rounded-[3.5rem] p-12 lg:p-20 text-center relative overflow-hidden shadow-2xl">
+            <div class="absolute top-0 left-0 w-96 h-96 bg-white/10 blur-[100px] rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
+                <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-8 backdrop-blur-md">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">Need Support With This Purchase?</h2>
+                <p class="text-white/80 text-lg mb-12">Our tech experts are here to help you make the best decision for your lifestyle. Contact us 24/7.</p>
+                <div class="flex flex-wrap justify-center gap-4 w-full">
+                    <a href="/contact" class="flex-1 md:flex-none px-10 py-5 bg-white text-blue-600 font-black rounded-2xl shadow-xl hover:-translate-y-1 transition-all">Chat with an Agent</a>
+                    <a href="tel:+880123456789" class="flex-1 md:flex-none px-10 py-5 bg-blue-700 text-white font-black rounded-2xl hover:bg-blue-800 transition-all border border-blue-500/30">Call Support</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </section>
 </div>

@@ -5,8 +5,8 @@
             
             <!-- Brand Column -->
             <div class="space-y-6">
-                <a class="flex-none text-2xl font-black text-white hover:text-blue-400 transition-colors" href="/" aria-label="Brand">
-                    {{ config('app.name') }}<span class="text-blue-500">.</span>
+                <a class="flex items-center transition-opacity hover:opacity-80" href="/" aria-label="Brand">
+                    <img src="{{ asset('images/logo.png') }}" class="h-10 w-auto object-contain brightness-0 invert" alt="Nafisa Mart">
                 </a>
                 <p class="text-slate-400 text-sm leading-relaxed max-w-xs">
                     Elevating your digital lifestyle with premium technology and exceptional service. Join the future of e-commerce.
@@ -62,10 +62,10 @@
                 © {{ now()->format('Y') }} <span class="text-slate-300 font-bold">{{ config('app.name') }}</span>. All rights reserved.
             </p>
             <div class="flex items-center gap-8 text-xs text-slate-500">
-                <span class="flex items-center gap-2">
+                {{-- <span class="flex items-center gap-2">
                     <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
                     Systems Operational
-                </span>
+                </span> --}}
                 <div class="flex gap-4 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" class="h-4">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" class="h-4">

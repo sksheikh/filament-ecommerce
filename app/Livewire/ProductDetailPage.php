@@ -27,10 +27,11 @@ class ProductDetailPage extends Component
         }
     }
 
-    public function addToCart($productId)
+    public function addToCart($productId, $qty = null)
     {
-        $total_count = \App\Helpers\CartManagement::addItemToCartWithQty($productId, $this->quantity);
-        $this->dispatch('update-cart-item', total_count: $total_count);
+        $quantity = $qty ?? $this->quantity;
+        $total_count = \App\Helpers\CartManagement::addItemToCartWithQty($productId, $quantity);
+        $this->dispatch('update-cart-item', total_count: $total_count)->to(\App\Livewire\Partials\Navbar::class);
         $this->dispatch('toast', [
             'message' => 'Product added to cart!',
             'icon' => 'success'
@@ -39,11 +40,19 @@ class ProductDetailPage extends Component
 
     public function render()
     {
-        $product = Product::where('slug', $this->slug)->firstOrFail();
+        $product = Product::where('slug', $this->slug)->active()->firstOrFail();
+        
+        $relatedProducts = Product::query()
+            ->where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->active()
+            ->limit(4)
+            ->get();
 
-        return view('livewire.product-detail-page',[
-            'product' => $product
+        return view('livewire.product-detail-page', [
+            'product' => $product,
+            'relatedProducts' => $relatedProducts
         ])
-        ->title("Product Details | " . config('app.name'));
+        ->title($product->name . " | " . config('app.name'));
     }
 }
