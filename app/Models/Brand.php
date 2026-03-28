@@ -18,6 +18,15 @@ class Brand extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function getImageUrlAttribute()
+    {
+        if ($this->image) {
+            return \Illuminate\Support\Facades\Storage::url($this->image);
+        }
+
+        return asset('images/default-image.png');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);

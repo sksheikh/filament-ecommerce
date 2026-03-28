@@ -14,13 +14,23 @@ use App\Livewire\CategoriesPage;
 use App\Livewire\MyOrderDetailPage;
 use App\Livewire\ProductDetailPage;
 use App\Livewire\SuccessPage;
+use App\Livewire\ContactPage;
+use App\Livewire\AboutPage;
+use App\Livewire\TrackOrderPage;
+use App\Livewire\TermsPage;
+use App\Livewire\PolicyPage;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomePage::class);
-Route::get('/categories ', CategoriesPage::class);
+Route::get('/categories', CategoriesPage::class);
 Route::get('/products', ProductsPage::class)->name('products');
 Route::get('/products/{slug}', ProductDetailPage::class);
-Route::get('/cart', CartPage::class);
+Route::get('/cart', CartPage::class)->name('cart');
+Route::get('/contact', ContactPage::class)->name('contact');
+Route::get('/about', AboutPage::class)->name('about');
+Route::get('/track-order', TrackOrderPage::class)->name('track-order');
+Route::get('/terms', TermsPage::class)->name('terms');
+Route::get('/policy', PolicyPage::class)->name('policy');
 
 
 
