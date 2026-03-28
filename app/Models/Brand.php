@@ -20,11 +20,15 @@ class Brand extends Model
 
     public function getImageUrlAttribute()
     {
-        if ($this->image) {
-            return \Illuminate\Support\Facades\Storage::url($this->image);
+        if (!$this->image) {
+            return asset('images/default-image.png');
         }
 
-        return asset('images/default-image.png');
+        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return $this->image;
+        }
+
+        return \Illuminate\Support\Facades\Storage::url($this->image);
     }
 
     public function scopeActive($query)

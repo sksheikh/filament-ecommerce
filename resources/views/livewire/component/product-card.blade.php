@@ -1,8 +1,8 @@
 <div>
     <div class="border border-gray-300 dark:border-gray-700">
         <div class="relative bg-gray-200">
-        <a href="/products/product_one" class="">
-            <img src="https://i.postimg.cc/hj6h6Vwv/pexels-artem-beliaikin-2292919.jpg" alt="" class="object-cover w-full h-56 mx-auto ">
+        <a href="/products/{{ $product->slug }}" class="">
+            <img src="{{ $product->image_urls[0] }}" alt="{{ $product->name }}" class="object-cover w-full h-56 mx-auto ">
         </a>
         </div>
         <div class="p-3 ">

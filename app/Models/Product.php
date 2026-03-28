@@ -58,7 +58,12 @@ class Product extends Model
     {
         $images = collect($this->images ?? [])
             ->filter()
-            ->map(fn($image) => Storage::url($image))
+            ->map(function($image) {
+                if (filter_var($image, FILTER_VALIDATE_URL)) {
+                    return $image;
+                }
+                return Storage::url($image);
+            })
             ->values();
 
         if ($images->isEmpty()) {
