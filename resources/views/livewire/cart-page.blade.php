@@ -4,6 +4,7 @@
     <div class="flex flex-col md:flex-row gap-4">
       <div class="md:w-3/4">
         <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
+          @if(!empty($cart_items) && count($cart_items) > 0)
           <table class="w-full">
             <thead>
               <tr>
@@ -15,7 +16,7 @@
               </tr>
             </thead>
             <tbody>
-                @forelse ($cart_items as $item)
+                @foreach ($cart_items as $item)
                 <tr wire:key="{{ $item['product_id'] }}">
                     <td class="py-4">
                         <div class="flex items-center">
@@ -46,14 +47,18 @@
                         </button>
                     </td>
                 </tr>
-                @empty
-                <tr>
-                    <td colspan="5" class="py-4 text-center text-2xl font-semibold text-slate-600">Your cart is empty.</td>
-                </tr>
-                @endforelse
+                @endforeach
               <!-- More product rows -->
             </tbody>
           </table>
+          @else
+          <div class="flex flex-col items-center justify-center">
+            <img src="{{ asset('images/empty-cart.png') }}" alt="Empty Cart" class="w-64 h-64 mb-4">
+            <h2 class="text-2xl font-semibold text-slate-600">Your cart is empty!</h2>
+            <p class="text-slate-500 mb-6">Looks like you haven't added anything to your cart yet.</p>
+            <a href="/products" wire:navigate class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Start Shopping</a>
+          </div>
+          @endif
         </div>
       </div>
       <div class="md:w-1/4">
