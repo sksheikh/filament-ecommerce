@@ -18,11 +18,11 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             window.addEventListener('toast', event => {
-                 let detail = Array.isArray(event.detail) ? event.detail[0] : event.detail;
-                console.log(detail);
+                let detail = Array.isArray(event.detail) ? event.detail[0] : event.detail;
+                
                 Swal.fire({
                     toast: true,
-                    position: 'top-end',
+                    position: 'bottom-end',
                     icon: detail.icon,
                     title: detail.message,
                     showConfirmButton: false,
