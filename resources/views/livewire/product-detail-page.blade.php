@@ -39,28 +39,49 @@
                         @endif
                     </div>
 
-                    <h1 class="text-3xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
+                    <h1 class="text-3xl md:text-5xl font-black text-slate-900 mb-4 leading-tight">
                         {{ $product->name }}
                     </h1>
 
-                    <div class="flex items-center gap-4 mb-8">
+                    @if($product->short_description)
+                    <p class="text-slate-500 text-base mb-6 leading-relaxed border-l-4 border-blue-400 pl-4">
+                        {{ $product->short_description }}
+                    </p>
+                    @endif
+
+                    <div class="flex flex-wrap items-center gap-4 mb-8">
+                        @if($product->discount_price)
+                        <div class="flex flex-col">
+                            <span class="text-4xl font-black text-blue-600">
+                                {{ moneyFormat($product->discount_price) }}
+                            </span>
+                            <span class="text-base text-slate-400 line-through">
+                                {{ moneyFormat($product->price) }}
+                            </span>
+                        </div>
+                        <span class="px-3 py-1 bg-red-100 text-red-600 text-xs font-black rounded-full">
+                            {{ round((($product->price - $product->discount_price) / $product->price) * 100) }}% OFF
+                        </span>
+                        @else
                         <span class="text-4xl font-black text-blue-600">
                             {{ moneyFormat($product->price) }}
                         </span>
+                        @endif
+
                         @if($product->is_stock)
                         <span class="flex items-center gap-1.5 text-xs font-bold text-green-500 bg-green-50 px-3 py-1 rounded-full">
                             <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                             In Stock
+                            @if($product->stock_quantity > 0)
+                            <span class="text-green-400">({{ $product->stock_quantity }} left)</span>
+                            @endif
                         </span>
                         @else
                         <span class="flex items-center gap-1.5 text-xs font-bold text-red-500 bg-red-50 px-3 py-1 rounded-full">
-                            OutOf Stock
+                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                            Out of Stock
                         </span>
                         @endif
-                    </div>
-
-                    <div class="prose prose-slate max-w-none text-slate-600 leading-relaxed mb-10 border-t border-slate-100 pt-8">
-                        {!! Str::markdown($product->description ?? 'No description available for this product.') !!}
                     </div>
 
                     {{-- Quality Controls & Add to Cart --}}
@@ -91,6 +112,21 @@
                 </div>
             </div>
         </div>
+
+        {{-- Long Description Section --}}
+        @if($product->description)
+        <div class="bg-white rounded-[2.5rem] shadow-md border border-slate-100 p-8 md:p-12 mb-20">
+            <div class="flex items-center gap-4 mb-8 border-b border-slate-100 pb-6">
+                <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <h2 class="text-2xl font-black text-slate-900">Product Description</h2>
+            </div>
+            <div class="prose prose-slate prose-lg max-w-none text-slate-600 leading-relaxed">
+                {!! Str::markdown($product->description) !!}
+            </div>
+        </div>
+        @endif
 
         {{-- Related Products Section --}}
         @if($relatedProducts->count() > 0)

@@ -16,6 +16,9 @@ class Product extends Model
         'images',
         'description',
         'price',
+        'discount_price',
+        'short_description',
+        'stock_quantity',
         'is_active',
         'is_featured',
         'is_stock',
@@ -28,6 +31,8 @@ class Product extends Model
         'is_featured' => 'boolean',
         'is_stock' => 'boolean',
         'on_sale' => 'boolean',
+        'discount_price' => 'decimal:2',
+        'stock_quantity' => 'integer',
     ];
 
     public function category()
