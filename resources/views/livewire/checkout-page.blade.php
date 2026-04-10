@@ -36,33 +36,27 @@
 							<input wire:model="phone" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="phone" type="text" placeholder="Phone number">
 							@error('phone') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
-
-						<div>
-							<label class="block text-gray-700 dark:text-white mb-1" for="zip">
-								ZIP Code
-							</label>
-							<input wire:model="zip_code" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="zip" type="text" placeholder="ZIP code">
-							@error('zip_code') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-						</div>
-
-						<div>
-							<label class="block text-gray-700 dark:text-white mb-1" for="division">
-								Division <span class="text-red-500">*</span>
-							</label>
-                            <select wire:model.live="division" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="division">
-                                <option value="">Select Division</option>
-                                @foreach($divisions as $div)
-                                    <option value="{{ $div->id }}">{{ $div->name }}</option>
-                                @endforeach
-                            </select>
-							@error('division') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-						</div>
-
-                        <div>
+                        <div wire:ignore x-data="{
+                            district: @entangle('district'),
+                            ts: null,
+                            init() {
+                                this.ts = new TomSelect($refs.district, {
+                                    onChange: (value) => {
+                                        $wire.set('district', value);
+                                    }
+                                });
+                                
+                                this.$watch('district', value => {
+                                    if (value !== this.ts.getValue()) {
+                                        this.ts.setValue(value);
+                                    }
+                                });
+                            }
+                        }">
                             <label class="block text-gray-700 dark:text-white mb-1" for="district">
 								District <span class="text-red-500">*</span>
 							</label>
-                            <select wire:model.live="district" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="district" @if(empty($districts)) disabled @endif>
+                            <select x-ref="district" id="district" class="w-full">
                                 <option value="">Select District</option>
                                 @foreach($districts as $dis)
                                     <option value="{{ $dis->id }}">{{ $dis->name }}</option>
@@ -71,25 +65,14 @@
 							@error('district') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
 
-						<div>
-							<label class="block text-gray-700 dark:text-white mb-1" for="area">
-								Area <span class="text-red-500">*</span>
-							</label>
-                            <select wire:model.live="area" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="area" @if(empty($areas)) disabled @endif>
-                                <option value="">Select Area</option>
-                                @foreach($areas as $ar)
-                                    <option value="{{ $ar->id }}">{{ $ar->name }}</option>
-                                @endforeach
-                            </select>
-							@error('area') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-						</div>
+
 					</div>
 
 					<div class="mt-4">
 						<label class="block text-gray-700 dark:text-white mb-1" for="street_address">
 							Street Address <span class="text-red-500">*</span>
 						</label>
-						<input wire:model="street_address" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="street_address" type="text" placeholder="Detailed Address">
+						<input wire:model="street_address" class="w-full rounded-lg border border-gray-300 py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none" id="street_address" type="text" placeholder="Enter Your Detailed Address">
 						@error('street_address') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 					</div>
 

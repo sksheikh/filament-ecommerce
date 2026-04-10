@@ -24,9 +24,7 @@ class DistrictsTable
                     ->label('Bengali Name')
                     ->searchable()
                     ->sortable(),
-                \Filament\Tables\Columns\TextColumn::make('areas_count')
-                    ->counts('areas')
-                    ->label('Areas'),
+
             ])
             ->filters([
                 //

@@ -20,10 +20,7 @@ class District extends Model
         return $this->belongsTo(Division::class);
     }
 
-    public function areas()
-    {
-        return $this->hasMany(Area::class);
-    }
+
 
     public function deliveryCharges()
     {

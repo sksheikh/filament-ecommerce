@@ -21,8 +21,5 @@ class DeliveryCharge extends Model
         return $this->belongsToMany(District::class, 'delivery_charge_districts');
     }
 
-    public function areas()
-    {
-        return $this->belongsToMany(Area::class, 'delivery_charge_areas');
-    }
+
 }

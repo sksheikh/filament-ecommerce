@@ -91,12 +91,15 @@
                             <p class="text-sm text-gray-600 dark:text-gray-400">{{ $order->address->phone }}</p>
                         </div>
                         <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase mb-2">City</p>
+                            <p class="text-sm text-gray-800 dark:text-gray-300 leading-relaxed italic">
+                                {{ $order->address->district }}
+                            </p>
+                        </div>
+                         <div>
                             <p class="text-xs font-bold text-gray-400 uppercase mb-2">Detailed Address</p>
                             <p class="text-sm text-gray-800 dark:text-gray-300 leading-relaxed italic">
-                                {{ $order->address->street_address }},
-                                {{ $order->address->area }},
-                                {{ $order->address->district }},
-                                {{ $order->address->division }} - {{ $order->address->zip_code }}
+                                {{ $order->address->street_address }}
                             </p>
                         </div>
                         <div class="pt-4 border-t border-gray-100 dark:border-slate-800 flex items-center gap-3">

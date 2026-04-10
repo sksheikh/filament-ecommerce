@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
             \Database\Seeders\UserSeeder::class,
             \Database\Seeders\CustomerSeeder::class,
             \Database\Seeders\SettingSeeder::class,
+            \Database\Seeders\CmsSeeder::class,
+            \Database\Seeders\DeliveryChargeSeeder::class,
         ]);
     }
 }

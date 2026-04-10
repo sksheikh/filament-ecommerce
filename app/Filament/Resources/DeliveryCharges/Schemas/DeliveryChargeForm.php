@@ -33,16 +33,7 @@ class DeliveryChargeForm
                         ->searchable()
                         ->preload()
                         ->live(),
-                    \Filament\Forms\Components\Select::make('areas')
-                        ->relationship(
-                            'areas', 
-                            'name', 
-                            modifyQueryUsing: fn (\Illuminate\Database\Eloquent\Builder $query, \Filament\Schemas\Components\Utilities\Get $get) => $query->whereIn('district_id', $get('districts') ?? [])
-                        )
-                        ->multiple()
-                        ->searchable()
-                        ->preload()
-                        ->disabled(fn (\Filament\Schemas\Components\Utilities\Get $get) => empty($get('districts'))),
+
                 ])->columns(1),
             ]);
     }

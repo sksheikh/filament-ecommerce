@@ -14,38 +14,26 @@ class ShippingChargeManagement
      * @param int|null $areaId
      * @return float
      */
-    public static function getShippingCharge($districtId = null, $areaId = null)
+    public static function getShippingCharge($districtId = null)
     {
-        // dd($districtId, $areaId);
+
         if (!$districtId) {
             $shippingInfo = self::getShippingInfoFromCookie();
             $districtId = $shippingInfo['district_id'] ?? null;
-            $areaId = $shippingInfo['area_id'] ?? null;
         }
 
         if (!$districtId) {
             return 0;
         }
 
-        // Try to find charge by specific area mapping
-        $charge = DeliveryCharge::whereHas('areas', function ($query) use ($areaId) {
-            if ($areaId) {
-                $query->where('areas.id', $areaId);
-            } else {
-                $query->whereRaw('1 = 0');
-            }
+
+
+        // Find charge by district mapping
+        $charge = DeliveryCharge::whereHas('districts', function ($query) use ($districtId) {
+            $query->where('districts.id', $districtId);
         })->where('is_active', true)->first();
-
-       
-
-        // If not found, try to find charge by district mapping
-        if (!$charge) {
-            $charge = DeliveryCharge::whereHas('districts', function ($query) use ($districtId) {
-                $query->where('districts.id', $districtId);
-            })->where('is_active', true)->first();
-        }
         
-        Log::info('Charge: ' . $charge);
+
         if ($charge) {
             return (float) $charge->amount;
         }
@@ -64,12 +52,11 @@ class ShippingChargeManagement
      * @param int $districtId
      * @param int|null $areaId
      */
-    public static function addShippingInfoToCookie($districtId, $areaId = null)
+    public static function addShippingInfoToCookie($districtId)
     {
         $shippingInfo = [
             'district_id' => $districtId,
-            'area_id' => $areaId,
-            'amount' => self::getShippingCharge($districtId, $areaId),
+            'amount' => self::getShippingCharge($districtId),
         ];
 
         \Illuminate\Support\Facades\Cookie::queue('shipping_info', json_encode($shippingInfo), 60 * 24 * 30);

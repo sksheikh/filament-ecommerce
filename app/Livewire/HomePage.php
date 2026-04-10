@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Helpers\CmsHelper;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 
@@ -27,11 +28,14 @@ class HomePage extends Component
             ->limit(4)
             ->get();
 
+        $cms = CmsHelper::all();
+
         return view('livewire.home-page', [
             'categories' => $categories,
             'brands' => $brands,
             'featuredProducts' => $featuredProducts,
             'bestSellingProducts' => $bestSellingProducts,
+            'cms' => $cms,
         ])->title("Home Page | " . config('app.name'));
     }
 }

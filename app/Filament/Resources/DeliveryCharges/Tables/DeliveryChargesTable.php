@@ -22,10 +22,7 @@ class DeliveryChargesTable
                     ->counts('districts')
                     ->label('Districts')
                     ->sortable(),
-                TextColumn::make('areas_count')
-                    ->counts('areas')
-                    ->label('Areas')
-                    ->sortable(),
+
                 TextColumn::make('amount')
                     ->money('BDT')
                     ->sortable(),

@@ -59,8 +59,7 @@
                 @if($record->address)
                 <strong>{{ $record->address->first_name }} {{ $record->address->last_name }}</strong><br>
                 {{ $record->address->street_address }}<br>
-                {{ $record->address->area }}, {{ $record->address->district }}<br>
-                {{ $record->address->division }} - {{ $record->address->zip_code }}<br>
+                {{ $record->address->district }}<br>
                 Phone: {{ $record->address->phone }}
                 @endif
             </div>

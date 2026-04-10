@@ -4,29 +4,41 @@
         <div class="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-transparent z-0"></div>
         <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col-reverse lg:flex-row items-center gap-12 py-16">
             <div class="flex-1 text-center lg:text-left z-10">
+                @if(!empty($cms['hero_badge']))
                 <span class="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-wider text-blue-600 uppercase bg-blue-50 rounded-full">
-                    New Arrivals 2024
+                    {{ $cms['hero_badge'] }}
                 </span>
+                @endif
+
+                @php
+                    $heroTitle = $cms['hero_title'] ?? 'Elevate Your Digital Life';
+                    $heroHighlight = $cms['hero_highlight'] ?? 'Digital Life';
+                    $heroTitleFormatted = !empty($heroHighlight)
+                        ? str_replace($heroHighlight, '<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">' . $heroHighlight . '</span>', $heroTitle)
+                        : $heroTitle;
+                @endphp
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
-                    Elevate Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Digital Life</span>
+                    {!! $heroTitleFormatted !!}
                 </h1>
+
                 <p class="text-lg text-slate-600 mb-10 max-w-2xl mx-auto lg:mx-0">
-                    Discover a curated selection of premium electronics, from the latest smartphones to high-performance laptops. Innovation at your fingertips.
+                    {{ $cms['hero_subtitle'] ?? 'Discover a curated selection of premium electronics, from the latest smartphones to high-performance laptops. Innovation at your fingertips.' }}
                 </p>
+
                 <div class="flex flex-wrap justify-center lg:justify-start gap-4">
-                    <a href="/products" class="px-8 py-4 bg-slate-900 text-white font-bold rounded-xl transition-all hover:bg-slate-800 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 capitalize">
-                        Shop Collection
+                    <a href="{{ $cms['hero_btn_primary_url'] ?? '/products' }}" class="px-8 py-4 bg-slate-900 text-white font-bold rounded-xl transition-all hover:bg-slate-800 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 capitalize">
+                        {{ $cms['hero_btn_primary_text'] ?? 'Shop Collection' }}
                     </a>
-                    <a href="/contact" class="px-8 py-4 bg-white text-slate-900 font-bold border border-slate-200 rounded-xl transition-all hover:bg-slate-50 hover:shadow-sm">
-                        Learn More
+                    <a href="{{ $cms['hero_btn_secondary_url'] ?? '/contact' }}" class="px-8 py-4 bg-white text-slate-900 font-bold border border-slate-200 rounded-xl transition-all hover:bg-slate-50 hover:shadow-sm">
+                        {{ $cms['hero_btn_secondary_text'] ?? 'Learn More' }}
                     </a>
                 </div>
             </div>
             <div class="flex-1 relative">
                 <div class="relative w-full aspect-square max-w-[500px] mx-auto group">
                     <div class="absolute inset-0 bg-blue-400 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
-                    <img src="https://images.unsplash.com/photo-1491933382434-500287f9b54b?q=80&w=1000&auto=format&fit=crop" 
-                         alt="Premium Gadgets" 
+                    <img src="{{ $cms['hero_image_url'] ?? 'https://images.unsplash.com/photo-1491933382434-500287f9b54b?q=80&w=1000&auto=format&fit=crop' }}" 
+                         alt="Hero Image" 
                          class="relative z-10 w-full h-full object-contain drop-shadow-2xl translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
                 </div>
             </div>
@@ -42,8 +54,8 @@
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                     </div>
                     <div>
-                        <h4 class="font-bold text-slate-900">Free Shipping</h4>
-                        <p class="text-xs text-slate-500">On all orders over ৳5000</p>
+                        <h4 class="font-bold text-slate-900">{{ $cms['trust_1_title'] ?? 'Free Shipping' }}</h4>
+                        <p class="text-xs text-slate-500">{{ $cms['trust_1_subtitle'] ?? 'On all orders over ৳5000' }}</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
@@ -51,8 +63,8 @@
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                     </div>
                     <div>
-                        <h4 class="font-bold text-slate-900">100% Secure</h4>
-                        <p class="text-xs text-slate-500">Encrypted payment gateway</p>
+                        <h4 class="font-bold text-slate-900">{{ $cms['trust_2_title'] ?? '100% Secure' }}</h4>
+                        <p class="text-xs text-slate-500">{{ $cms['trust_2_subtitle'] ?? 'Encrypted payment gateway' }}</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
@@ -60,8 +72,8 @@
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                     </div>
                     <div>
-                        <h4 class="font-bold text-slate-900">Easy Returns</h4>
-                        <p class="text-xs text-slate-500">7-day replacement policy</p>
+                        <h4 class="font-bold text-slate-900">{{ $cms['trust_3_title'] ?? 'Easy Returns' }}</h4>
+                        <p class="text-xs text-slate-500">{{ $cms['trust_3_subtitle'] ?? '7-day replacement policy' }}</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
@@ -69,8 +81,8 @@
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                     </div>
                     <div>
-                        <h4 class="font-bold text-slate-900">24/7 Support</h4>
-                        <p class="text-xs text-slate-500">Dedicated help center</p>
+                        <h4 class="font-bold text-slate-900">{{ $cms['trust_4_title'] ?? '24/7 Support' }}</h4>
+                        <p class="text-xs text-slate-500">{{ $cms['trust_4_subtitle'] ?? 'Dedicated help center' }}</p>
                     </div>
                 </div>
             </div>
@@ -132,17 +144,19 @@
                 <div class="absolute top-0 right-0 w-96 h-96 bg-blue-600/20 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
                 <div class="absolute bottom-0 left-0 w-64 h-64 bg-cyan-600/10 blur-[80px] rounded-full -translate-x-1/2 translate-y-1/2"></div>
                 
-                <h2 class="relative z-10 text-3xl sm:text-5xl font-black text-white leading-tight mb-6">
-                    Join the Tech Revolution.<br>
-                    Get ৳500 Off Your First Order!
+                <h2 class="relative z-10 text-3xl sm:text-5xl font-black text-white leading-tight mb-2">
+                    {{ $cms['offer_title'] ?? 'Join the Tech Revolution.' }}
                 </h2>
+                @if(!empty($cms['offer_subtitle']))
+                <p class="relative z-10 text-xl font-bold text-blue-300 mb-6">{{ $cms['offer_subtitle'] }}</p>
+                @endif
                 <p class="relative z-10 text-slate-300 text-lg mb-10 max-w-xl">
-                    Subscribe to our newsletter for the latest tech news, exclusive deals, and early access to new releases.
+                    {{ $cms['offer_description'] ?? 'Subscribe to our newsletter for the latest tech news, exclusive deals, and early access to new releases.' }}
                 </p>
                 <div class="relative z-10 flex flex-col sm:flex-row gap-4 w-full max-w-lg">
                     <input type="email" placeholder="Enter your email address" class="flex-1 bg-white/10 border border-white/20 rounded-2xl px-6 py-4 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 backdrop-blur-md">
                     <button class="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-colors shadow-lg">
-                        Keep Me Updated
+                        {{ $cms['offer_btn_text'] ?? 'Keep Me Updated' }}
                     </button>
                 </div>
             </div>

@@ -11,21 +11,23 @@ class CheckoutPage extends Component
     public $last_name;
     public $phone;
     public $street_address;
-    public $division;
     public $district;
-    public $area;
-    public $zip_code;
     public $payment_method;
     public $notes;
     public $shipping_amount = 0;
 
-    public $divisions = [];
     public $districts = [];
-    public $areas = [];
 
     public function mount()
     {
-        $this->divisions = \App\Models\Division::all();
+        $this->districts = \App\Models\District::all();
+        
+        $shippingInfo = \App\Helpers\ShippingChargeManagement::getShippingInfoFromCookie();
+        if ($shippingInfo) {
+            $this->district = $shippingInfo['district_id'] ?? null;
+            $this->shipping_amount = $shippingInfo['amount'] ?? 0;
+        }
+
         $cart_items = CartManagement::getCartItemsFromCookie();
         if(empty($cart_items)) {
             return redirect()->route('products');
@@ -43,31 +45,14 @@ class CheckoutPage extends Component
         }
     }
 
-    public function updatedDivision($divisionId)
-    {
-        $this->districts = \App\Models\District::where('division_id', $divisionId)->get();
-        $this->district = null;
-        $this->area = null;
-        $this->areas = [];
-        $this->shipping_amount = 0;
-    }
-
     public function updatedDistrict($districtId)
     {
-        $this->areas = \App\Models\Area::where('district_id', $districtId)->get();
-        $this->area = null;
-
-        $this->calculateShipping();
-    }
-
-    public function updatedArea($areaId)
-    {
-        $this->calculateShipping();
+        $this->shipping_amount = \App\Helpers\ShippingChargeManagement::getShippingCharge($districtId);
     }
 
     protected function calculateShipping()
     {
-        $this->shipping_amount = \App\Helpers\ShippingChargeManagement::getShippingCharge($this->district, $this->area);
+        $this->shipping_amount = \App\Helpers\ShippingChargeManagement::getShippingCharge($this->district);
     }
 
     public function placeOrder()
@@ -81,9 +66,7 @@ class CheckoutPage extends Component
             'last_name' => 'required',
             'phone' => 'required',
             'street_address' => 'required',
-            'division' => 'required',
             'district' => 'required',
-            'area' => 'required',
             'payment_method' => 'required',
         ]);
 
@@ -113,19 +96,14 @@ class CheckoutPage extends Component
             ]);
         }
 
-        $division_name = \App\Models\Division::find($this->division)?->name;
         $district_name = \App\Models\District::find($this->district)?->name;
-        $area_name = \App\Models\Area::find($this->area)?->name;
 
         $order->address()->create([
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'phone' => $this->phone,
             'street_address' => $this->street_address,
-            'division' => $division_name,
             'district' => $district_name,
-            'area' => $area_name,
-            'zip_code' => $this->zip_code,
         ]);
 
         CartManagement::clearCartItems();
