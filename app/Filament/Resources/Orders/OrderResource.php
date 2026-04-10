@@ -68,6 +68,7 @@ class OrderResource extends Resource
             'create' => CreateOrder::route('/create'),
             'invoice' => InvoiceOrder::route('/{record}/invoice'),
             'delivery-slip' => DeliverySlip::route('/{record}/delivery-slip'),
+            'detail' => Pages\OrderDetail::route('/{record}/detail'),
             'view' => ViewOrder::route('/{record}'),
             'edit' => EditOrder::route('/{record}/edit'),
         ];

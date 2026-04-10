@@ -69,16 +69,15 @@ class AddressRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                CreateAction::make(),
+                CreateAction::make()
+                    ->visible(fn (RelationManager $livewire): bool => $livewire->getOwnerRecord()->address()->doesntExist()),
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+
             ])
             ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
+
             ]);
     }
 }

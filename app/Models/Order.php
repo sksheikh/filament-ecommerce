@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    protected static function booted(): void
+    {
+        static::creating(function (Order $order) {
+            $order->order_number ??= 'ORD-' . now()->format('Ymd') . '-' . strtoupper(\Illuminate\Support\Str::random(6));
+        });
+    }
+
     protected $fillable = [
         'customer_id',
         'order_number',

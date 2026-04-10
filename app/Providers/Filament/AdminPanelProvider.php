@@ -30,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            // ->viteTheme('resources/css/app.css')
             ->login()
             ->authGuard('web')
             ->authPasswordBroker('users')

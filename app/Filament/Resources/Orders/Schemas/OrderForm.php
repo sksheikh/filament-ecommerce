@@ -36,6 +36,24 @@ class OrderForm
                             ->required()
                             ->preload()
                             ->relationship('customer', 'name')
+                            ->createOptionForm([
+                                TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                                TextInput::make('email')
+                                    ->label('Email Address')
+                                    ->email()
+                                    ->required()
+                                    ->unique('customers', 'email', ignoreRecord: true)
+                                    ->maxLength(255),
+                                TextInput::make('phone')
+                                    ->tel()
+                                    ->required()
+                                    ->unique('customers', 'phone')
+                                    ->maxLength(20),
+                                Hidden::make('password')
+                                    ->default(fn () => \Illuminate\Support\Facades\Hash::make('password')),
+                            ])
                             ->disabled(fn (?Order $record) => $record && $record->status !== OrderStatus::Pending),
 
                         Select::make('payment_method')
@@ -65,7 +83,7 @@ class OrderForm
                            Select::make('shipping_method')
                             ->placeholder('Select a shipping method')
                             ->options(ShippingMethod::class)
-                            ->required(),
+                            ->nullable(),
 
                         Textarea::make('notes')
                             ->placeholder('Additional notes about the order...')

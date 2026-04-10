@@ -72,7 +72,12 @@ class OrdersTable
             ])
             ->actions([
                ActionGroup::make([
-                    ViewAction::make(),
+                    // ViewAction::make(),
+                    Action::make('custom_detail')
+                        ->label('View')
+                        ->icon('heroicon-o-eye')
+                        ->color('warning')
+                        ->url(fn(Order $record): string => \App\Filament\Resources\Orders\OrderResource::getUrl('detail', ['record' => $record])),
                     EditAction::make(),
 
                     Action::make('invoice')
