@@ -52,8 +52,8 @@ class OrdersTable
                     ->sortable()
                     ->searchable(),
 
-                SelectColumn::make('status')
-                    ->options(OrderStatus::class)
+                TextColumn::make('status')
+                    ->badge()
                     ->sortable()
                     ->searchable(),
 

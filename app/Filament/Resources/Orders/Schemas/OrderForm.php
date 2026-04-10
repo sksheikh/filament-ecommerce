@@ -52,6 +52,12 @@ class OrderForm
                             ->inline()
                             ->options(OrderStatus::class)
                             ->default(OrderStatus::Pending)
+                            ->disableOptionWhen(function ($value, ?Order $record) {
+                                if (!$record) {
+                                    return $value !== OrderStatus::Pending->value;
+                                }
+                                return !$record->status->canTransitionTo($value) && $record->status->value !== $value;
+                            })
                             ->required(),
 
                            Select::make('shipping_method')

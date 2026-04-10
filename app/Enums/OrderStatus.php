@@ -48,5 +48,28 @@ enum OrderStatus: string implements HasLabel, HasColor, HasIcon
         };
     }
 
+    /**
+     * Get allowed transitions for each status.
+     *
+     * @return array<string, array<string>>
+     */
+    public static function getTransitions(): array
+    {
+        return [
+            self::Pending->value => [self::Processing->value, self::Cancelled->value],
+            self::Processing->value => [self::Shipped->value, self::Cancelled->value],
+            self::Shipped->value => [self::Delivered->value, self::Cancelled->value],
+            self::Delivered->value => [], // Terminal
+            self::Cancelled->value => [], // Terminal
+        ];
+    }
 
+    /**
+     * Check if status can transition to a target status.
+     */
+    public function canTransitionTo(string $targetStatus): bool
+    {
+        $allowed = self::getTransitions()[$this->value] ?? [];
+        return in_array($targetStatus, $allowed);
+    }
 }
