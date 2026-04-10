@@ -56,6 +56,11 @@ class OrderResource extends Resource
         return Static::getModel()::pending()->count();
     }
 
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return false;
+    }
+
     public static function getPages(): array
     {
         return [

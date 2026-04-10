@@ -35,11 +35,13 @@ class OrderForm
                             ->searchable()
                             ->required()
                             ->preload()
-                            ->relationship('customer', 'name'),
+                            ->relationship('customer', 'name')
+                            ->disabled(fn (?Order $record) => $record && $record->status !== OrderStatus::Pending),
 
                         Select::make('payment_method')
                             ->placeholder('Select a payment method')
                             ->options(PaymentMethod::class)
+                            ->disabled(fn (?Order $record) => $record && $record->status !== OrderStatus::Pending)
                             ->required(),
 
                         Select::make('payment_status')
@@ -75,6 +77,10 @@ class OrderForm
                     Section::make('Order Items')->schema([
                         Repeater::make('items')
                             ->relationship()
+                            ->disabled(fn (?Order $record) => $record && $record->status !== OrderStatus::Pending)
+                            ->addable(fn (?Order $record) => !$record || $record->status === OrderStatus::Pending)
+                            ->deletable(fn (?Order $record) => !$record || $record->status === OrderStatus::Pending)
+                            ->reorderable(fn (?Order $record) => !$record || $record->status === OrderStatus::Pending)
                             ->schema([
                                 Select::make('product_id')
                                     ->label('Product')

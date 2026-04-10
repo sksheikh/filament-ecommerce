@@ -74,7 +74,7 @@ class OrdersTable
                ActionGroup::make([
                     ViewAction::make(),
                     EditAction::make(),
-                    DeleteAction::make(),
+
                     Action::make('invoice')
                         ->label('Invoice')
                         ->icon('heroicon-o-document-text')
@@ -87,7 +87,7 @@ class OrdersTable
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+
                 ]),
             ]);
     }
